@@ -9,6 +9,6 @@
 <base href="${pageContext.request.contextPath}${'/'}">
 
 </head>
-<body>hello,welcome you visit my website.
+<body>hello,${username},welcome you visit my website.
 </body>
 </html>

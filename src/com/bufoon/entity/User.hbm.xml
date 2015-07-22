@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="GBK"?>
-<!-- Ö¸¶¨HibernateÓ³ÉäÎÄ¼þµÄDTDÐÅÏ¢ -->
-<!DOCTYPE hibernate-mapping PUBLIC 
-	"-//Hibernate/Hibernate Mapping DTD 4.0//EN"
-	"http://www.hibernate.org/dtd/hibernate-mapping-4.0.dtd">
-<!-- HibernateÓ³ÉäÎÄ¼þµÄ¸ùÔªËØ -->
-<hibernate-mapping package="com.bufoon.bean">
+<?xml version="1.0" encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!-- Hibernateæ˜ å°„æ–‡ä»¶çš„æ ¹å…ƒç´  -->
+<hibernate-mapping package="com.bufoon.entity">
 	<class name="User" table="t_user">
-		<!-- Ó³Éä±êÊ¶ÊôÐÔ -->
+		<!-- æ˜ å°„æ ‡è¯†å±žæ€§ -->
 		<id name="id" type="integer" column="user_id" length="10">
-			<!-- Ö¸¶¨Ê¹ÓÃidentityÖ÷¼üÉú³É²ßÂÔ -->
+			<!-- æŒ‡å®šä½¿ç”¨identityä¸»é”®ç”Ÿæˆç­–ç•¥ -->
 			<generator class="identity" />
 		</id>
-		<!-- Ó³ÉäÆÕÍ¨ÊôÐÔ -->
+		<!-- æ˜ å°„æ™®é€šå±žæ€§ -->
 		<property name="userName" column="user_name" type="string"
 			length="20" />
 		<property name="password" column="password" type="string"

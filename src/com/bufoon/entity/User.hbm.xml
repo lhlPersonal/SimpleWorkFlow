@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="GBK"?>
+<!-- 指定Hibernate映射文件的DTD信息 -->
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 4.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-4.0.dtd">
+<!-- Hibernate映射文件的根元素 -->
+<hibernate-mapping package="com.bufoon.bean">
+	<class name="User" table="t_user">
+		<!-- 映射标识属性 -->
+		<id name="id" type="integer" column="user_id" length="10">
+			<!-- 指定使用identity主键生成策略 -->
+			<generator class="identity" />
+		</id>
+		<!-- 映射普通属性 -->
+		<property name="userName" column="user_name" type="string"
+			length="20" />
+		<property name="password" column="password" type="string"
+			length="20" />
+		<property name="address" column="address" type="string"
+			length="100" />
+		<property name="phoneNumber" column="phone_number" type="string"
+			length="20" />
+		<property name="createTime" column="create_time" type="timestamp" />
+		<property name="updateTime" column="update_time" type="timestamp" />
+	</class>
+</hibernate-mapping>

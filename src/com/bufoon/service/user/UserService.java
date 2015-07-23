@@ -2,8 +2,12 @@ package com.bufoon.service.user;
  
 import java.util.List;
  
+
+import org.springframework.stereotype.Service;
+
 import com.bufoon.entity.User;
  
+
 public interface UserService {
  
 	public void saveUser(User user);

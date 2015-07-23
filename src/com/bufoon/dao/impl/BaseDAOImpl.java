@@ -11,17 +11,11 @@ import org.springframework.stereotype.Repository;
 
 import com.bufoon.dao.BaseDAO;
 
+@Repository
 public class BaseDAOImpl<T> implements BaseDAO<T> {
 
+	@Autowired
 	private SessionFactory sessionFactory;
-
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
-
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
 
 	private Session getCurrentSession() {
 		return sessionFactory.getCurrentSession();

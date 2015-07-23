@@ -29,9 +29,8 @@
 		<property name="dataSource">
 			<ref bean="dataSource" />
 		</property>
-		<!--引入hibernate文件---- <property name="configLocation" value="classpath:hibernate.cfg.xml" 
-			/> -->
-			<!-- 直接配置hibernate的相关属性，不需要hibernate.cfg.xml -->
+
+		<!-- 直接配置hibernate的相关属性，不需要hibernate.cfg.xml -->
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
@@ -39,6 +38,7 @@
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.format_sql">true</prop>
 				<prop key="hibernate.use_sql_comments">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
 		</property>
 		<property name="mappingResources">
@@ -54,7 +54,7 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	<bean id="baseDao" class="com.bufoon.dao.impl.BaseDAOImpl">
+	<!---改为annotation方式 <bean id="baseDao" class="com.bufoon.dao.impl.BaseDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
@@ -65,5 +65,5 @@
 	<bean id="loginAction" class="com.bufoon.action.LoginAction"
 		scope="prototype">
 		<property name="userService" ref="userService" />
-	</bean>
+	</bean> -->
 </beans>

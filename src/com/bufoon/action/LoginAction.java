@@ -4,34 +4,34 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.bufoon.entity.User;
 import com.bufoon.service.user.UserService;
 import com.opensymphony.xwork2.ActionSupport;
 
+@Controller
+@Scope("prototype")
 public class LoginAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
 
+	@Autowired
 	private UserService userService;
-
-	public UserService getUserService() {
-		return userService;
-	}
-
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
 
 	private String username;
 	private String password;
 
-	public String login() {
-
+	@Override
+	public String execute() throws Exception {
 		HttpServletRequest request = ServletActionContext.getRequest();
 		User user = userService.findUserByNameAndPassword(username, password);
 		if (user == null) {
+			user = new User();
+			user.setUserName(username);
+			user.setPassword(password);
 			userService.saveUser(user);
 		}
 

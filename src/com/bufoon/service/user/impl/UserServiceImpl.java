@@ -4,14 +4,21 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bufoon.dao.BaseDAO;
 import com.bufoon.entity.User;
 import com.bufoon.service.user.UserService;
 
+@Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
+	@Autowired
 	private BaseDAO<User> baseDAO;
 
 	@Override
@@ -22,14 +29,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updateUser(User user) {
 		baseDAO.update(user);
-	}
-
-	public BaseDAO<User> getBaseDAO() {
-		return baseDAO;
-	}
-
-	public void setBaseDAO(BaseDAO<User> baseDAO) {
-		this.baseDAO = baseDAO;
 	}
 
 	@Override

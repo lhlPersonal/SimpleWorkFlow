@@ -16,6 +16,14 @@ public class LoginAction extends ActionSupport {
 
 	private UserService userService;
 
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
 	private String username;
 	private String password;
 
@@ -23,12 +31,12 @@ public class LoginAction extends ActionSupport {
 
 		HttpServletRequest request = ServletActionContext.getRequest();
 		User user = userService.findUserByNameAndPassword(username, password);
-		if (user != null) {
-			request.setAttribute("username", username);
-			return SUCCESS;
-		} else {
-			return ERROR;
+		if (user == null) {
+			userService.saveUser(user);
 		}
+
+		request.setAttribute("username", username);
+		return SUCCESS;
 	}
 
 	public String getUsername() {

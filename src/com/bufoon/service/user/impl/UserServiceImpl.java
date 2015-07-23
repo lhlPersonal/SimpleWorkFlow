@@ -24,6 +24,14 @@ public class UserServiceImpl implements UserService {
 		baseDAO.update(user);
 	}
 
+	public BaseDAO<User> getBaseDAO() {
+		return baseDAO;
+	}
+
+	public void setBaseDAO(BaseDAO<User> baseDAO) {
+		this.baseDAO = baseDAO;
+	}
+
 	@Override
 	public User findUserById(int id) {
 		return baseDAO.get(User.class, id);

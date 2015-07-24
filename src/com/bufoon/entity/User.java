@@ -1,14 +1,42 @@
 package com.bufoon.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name = "t_user")
 public class User {
+	@Id
+	@Column(name = "user_id", length = 10)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
+	@Column(name = "user_name", length = 20)
 	private String userName;
+
+	@Column(name = "password", length = 20)
 	private String password;
+
+	@Column(name = "address", length = 100)
 	private String address;
+
+	@Column(name = "phone_number", length = 20)
 	private String phoneNumber;
+
+	@Column(name = "create_time", length = 10)
+	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date createTime;
+
+	@Column(name = "update_time", length = 10)
+	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date updateTime;
 
 	public Integer getId() {

@@ -41,11 +41,9 @@
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
 		</property>
-		<property name="mappingResources">
-			<list>
-				<value>com/bufoon/entity/User.hbm.xml</value>
-			</list>
-		</property>
+		<!-- <property name="mappingResources"> <list> <value>com/bufoon/entity/User.hbm.xml</value> 
+			</list> </property> -->
+		<property name="packagesToScan" value="com.bufoon.entity" />
 	</bean>
 
 	<!-- 配置事务管理器 -->
@@ -54,16 +52,9 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	<!---改为annotation方式 <bean id="baseDao" class="com.bufoon.dao.impl.BaseDAOImpl">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-
-	<bean id="userService" class="com.bufoon.service.user.impl.UserServiceImpl">
-		<property name="baseDAO" ref="baseDao" />
-	</bean>
-
-	<bean id="loginAction" class="com.bufoon.action.LoginAction"
-		scope="prototype">
-		<property name="userService" ref="userService" />
-	</bean> -->
+	<!---改为annotation方式 <bean id="baseDao" class="com.bufoon.dao.impl.BaseDAOImpl"> 
+		<property name="sessionFactory" ref="sessionFactory" /> </bean> <bean id="userService" 
+		class="com.bufoon.service.user.impl.UserServiceImpl"> <property name="baseDAO" 
+		ref="baseDao" /> </bean> <bean id="loginAction" class="com.bufoon.action.LoginAction" 
+		scope="prototype"> <property name="userService" ref="userService" /> </bean> -->
 </beans>

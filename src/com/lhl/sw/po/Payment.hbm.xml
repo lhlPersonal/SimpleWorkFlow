@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!-- Hibernate映射文件的根元素 -->
+<hibernate-mapping package="com.lhl.sw.po">
+	<class name="Payment" table="t_payment">
+		<!-- 映射标识属性 -->
+		<id name="id" type="integer" column="payment_id" length="10">
+			<!-- 指定使用identity主键生成策略 -->
+			<generator class="identity" />
+		</id>
+		<!-- 映射普通属性 -->
+		<property name="payment" column="payment" type="double" />
+		<property name="month" column="month" type="integer" />
+		<many-to-one name="emp" column="emp_id" not-null="true"></many-to-one>
+	</class>
+</hibernate-mapping>

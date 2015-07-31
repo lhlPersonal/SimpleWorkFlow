@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!-- Hibernate映射文件的根元素 -->
+<hibernate-mapping package="com.lhl.sw.po">
+	<class name="AttendType" table="attend_type">
+		<!-- 映射标识属性 -->
+		<id name="id" type="integer" column="type_id" length="10">
+			<!-- 指定使用identity主键生成策略 -->
+			<generator class="identity" />
+		</id>
+		<!-- 映射普通属性 -->
+		<property name="name" column="type_name" type="string"
+			length="20" />
+		<property name="amerce" column="amerce" type="double" />
+	</class>
+</hibernate-mapping>

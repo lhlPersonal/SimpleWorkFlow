@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Hibernate映射文件的根元素 -->
+<hibernate-mapping package="com.lhl.sw.po">
+	<class name="Application" table="t_app">
+		<!-- 映射标识属性 -->
+		<id column="app_id" length="10" name="id" type="integer">
+			<!-- 指定使用identity主键生成策略 -->
+			<generator class="identity" />
+		</id>
+		<!-- 映射普通属性 generated:该字段是否由数据库生成（比如insert时由触发器生成），默认为never -->
+		<property column="reason" generated="never" lazy="false"
+			length="20" name="reason" type="string" />
+		<property column="app_time" generated="never" lazy="false"
+			name="appTime" type="timestamp" />
+		<!-- 单向n-1关联,Application可以关联attend，但attend不需要关联Application.此时指定cascade没有意义，因为从表不需要级联到主表 -->
+		<many-to-one class="Attend" column="attend_id" name="attend"
+			not-null="true" />
+		<!-- 单向n-1关联,Application可以关联attendType，但attendType不需要关联Application.此时指定cascade没有意义，因为从表不需要级联到主表 -->
+		<many-to-one class="AttendType" column="attendType_id"
+			name="attendType" not-null="true" />
+		<!-- 用于基于外键的双向1-1关联，表示该表为主表，外键端用many-to-one表示，为从表，property-ref引用外键端对应的类属性名 
+			,name为关联外键类的属性名 -->
+		<one-to-one name="checkBack" property-ref="app" cascade="delete" />
+	</class>
+</hibernate-mapping>

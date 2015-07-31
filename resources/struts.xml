@@ -25,7 +25,7 @@
 			<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> 
 			</listener> <context-param> <param-name>contextConfigLocation</param-name> 
 			<param-value>classpath:applicationContext*.xml</param-value> </context-param> -->
-		<action name="login" class="loginAction">
+		<action name="test" class="testAction">
 			<result name="success">/success.jsp</result>
 		</action>
 	</package>

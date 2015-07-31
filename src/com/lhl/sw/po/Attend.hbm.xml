@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!-- Hibernate映射文件的根元素 -->
+<hibernate-mapping package="com.lhl.sw.po">
+	<class name="Attend" table="t_attend">
+		<!-- 映射标识属性 -->
+		<id name="id" type="integer" column="attend_id" length="10">
+			<!-- 指定使用identity主键生成策略 -->
+			<generator class="identity" />
+		</id>
+		<many-to-one name="attendType" column="attend_type" class="AttendType"
+			not-null="true"></many-to-one>
+		<many-to-one name="employee" column="t_emp" class="Employee"
+			not-null="true"></many-to-one>
+		<property name="attendTime" column="attend_time" type="timestamp" />
+	</class>
+</hibernate-mapping>

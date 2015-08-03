@@ -44,14 +44,14 @@
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
 		</property>
-		<property name="mappingResources">
+		<property name="mappingLocations">
 			<list>
-				<value>com/lhl/sw/po/Employee.hbm.xml</value>
-				<value>com/lhl/sw/po/Application.hbm.xml</value>
+				<value>classpath*:com/lhl/sw/po/*.hbm.xml</value>
+				<!-- <value>com/lhl/sw/po/Application.hbm.xml</value>
 				<value>com/lhl/sw/po/CheckBack.hbm.xml</value>
 				<value>com/lhl/sw/po/AttendType.hbm.xml</value>
 				<value>com/lhl/sw/po/Attend.hbm.xml</value>
-				<value>com/lhl/sw/po/Payment.hbm.xml</value>
+				<value>com/lhl/sw/po/Payment.hbm.xml</value> -->
 			</list>
 		</property>
 		<!-- <property name="packagesToScan" value="com.bufoon.entity" /> -->

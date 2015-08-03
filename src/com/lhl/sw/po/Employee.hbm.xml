@@ -3,14 +3,14 @@
                                    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Hibernate映射文件的根元素 -->
 <hibernate-mapping package="com.lhl.sw.po">
-	<class name="Employee" table="t_emp" discriminator-value="manager">
+	<class discriminator-value="manager" name="Employee" table="t_emp">
 		<!-- 映射标识属性 -->
 		<id column="emp_id" length="10" name="id" type="integer">
 			<!-- 指定使用identity主键生成策略 -->
 			<generator class="identity" />
 		</id>
-		<!-- 辨识列，用来分辨父子类 -->
-		<discriminator column="leader" type="string"></discriminator>
+		<discriminator column="leader" force="false" insert="true"
+			not-null="true" />
 		<!-- 映射普通属性 -->
 		<property column="emp_name" generated="never" lazy="false"
 			length="20" name="name" type="string" />
@@ -19,24 +19,26 @@
 		<property column="salary" generated="never" lazy="false"
 			name="salary" type="double" />
 		<!-- 映射和manager的关联，由于在同一个表中，因此指定列名 -->
-		<many-to-one name="manager" column="manager_id" class="Manager"></many-to-one>
+		<many-to-one class="Manager" column="manager_id" name="manager" />
 		<!-- 双向1-n，inverse=true表示由n端控制关联关系 -->
-		<set inverse="true" name="attends" table="t_attend">
+		<set inverse="true" name="attends" sort="unsorted" table="t_attend">
 			<key column="emp_id" />
 			<one-to-many class="Attend" />
 		</set>
-		<set inverse="true" name="payments" table="t_payment">
-			<key column="payment_id" />
+		<set fetch="join" inverse="true" name="payments" outer-join="true"
+			sort="unsorted" table="t_payment">
+			<key column="emp_id" />
 			<one-to-many class="Payment" />
 		</set>
-		<subclass name="Manager" discriminator-value="none">
-			<property name="dept" type="string"></property>
-			<set name="employees" inverse="true">
-				<key column="manager_id"></key>
+		<subclass discriminator-value="none" name="Manager"
+			select-before-update="false">
+			<property generated="never" lazy="false" name="dept" type="string" />
+			<set inverse="true" name="employees" sort="unsorted">
+				<key column="manager_id" />
 				<one-to-many class="Employee" />
 			</set>
-			<set name="payments" inverse="true">
-				<key column="manager_id"></key>
+			<set inverse="true" name="backs" sort="unsorted">
+				<key column="manager_id" />
 				<one-to-many class="CheckBack" />
 			</set>
 		</subclass>

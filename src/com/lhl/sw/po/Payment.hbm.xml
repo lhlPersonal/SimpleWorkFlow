@@ -14,6 +14,7 @@
 		<!-- 映射普通属性 -->
 		<property name="payment" column="payment" type="double" />
 		<property name="month" column="month" type="integer" />
-		<many-to-one name="emp" column="emp_id" not-null="true"></many-to-one>
+		<many-to-one name="emp" column="emp_id" class="Employee"
+			not-null="true"></many-to-one>
 	</class>
 </hibernate-mapping>

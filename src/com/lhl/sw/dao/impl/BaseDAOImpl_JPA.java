@@ -16,61 +16,59 @@ import org.springframework.stereotype.Repository;
 
 import com.lhl.sw.dao.BaseDAO;
 
-public class BaseDAOImpl<T>{
+@Repository
+public class BaseDAOImpl_JPA<T> implements BaseDAO<T> {
 
-	@Autowired
-	private SessionFactory sessionFactory;
+	@PersistenceContext
+	private EntityManager manager;
 
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
+	public EntityManager getManager() {
+		return manager;
 	}
 
-	public Session getCurrentSession() {
-		return sessionFactory.getCurrentSession();
-	}
-
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
+	public void setManager(EntityManager manager) {
+		this.manager = manager;
 	}
 
 	public Serializable save(T o) {
-		return this.getCurrentSession().save(o);
+		this.manager.persist(o);
+		return "1";
 	}
 
 	public void delete(T o) {
-		this.getCurrentSession().delete(o);
+		this.manager.remove(o);
 	}
 
 	public void update(T o) {
-		this.getCurrentSession().update(o);
+		this.manager.merge(o);
 	}
 
 	public void saveOrUpdate(T o) {
-		this.getCurrentSession().saveOrUpdate(o);
+		this.update(o);
 	}
 
 	public List<T> find(String hql) {
-		return this.getCurrentSession().createQuery(hql).list();
+		return this.manager.createNamedQuery(hql).getResultList();
 	}
 
 	public List<T> find(String hql, Object[] param) {
-		Query q = this.getCurrentSession().createQuery(hql);
+		javax.persistence.Query q = this.manager.createQuery(hql);
 		if (param != null && param.length > 0) {
 			for (int i = 0; i < param.length; i++) {
 				q.setParameter(i, param[i]);
 			}
 		}
-		return q.list();
+		return q.getResultList();
 	}
 
 	public List<T> find(String hql, List<Object> param) {
-		Query q = this.getCurrentSession().createQuery(hql);
+		javax.persistence.Query q = this.manager.createQuery(hql);
 		if (param != null && param.size() > 0) {
 			for (int i = 0; i < param.size(); i++) {
 				q.setParameter(i, param.get(i));
 			}
 		}
-		return q.list();
+		return q.getResultList();
 	}
 
 	public List<T> find(String hql, Object[] param, Integer page, Integer rows) {
@@ -80,13 +78,14 @@ public class BaseDAOImpl<T>{
 		if (rows == null || rows < 1) {
 			rows = 10;
 		}
-		Query q = this.getCurrentSession().createQuery(hql);
+		javax.persistence.Query q = this.manager.createQuery(hql);
 		if (param != null && param.length > 0) {
 			for (int i = 0; i < param.length; i++) {
 				q.setParameter(i, param[i]);
 			}
 		}
-		return q.setFirstResult((page - 1) * rows).setMaxResults(rows).list();
+		return q.setFirstResult((page - 1) * rows).setMaxResults(rows)
+				.getResultList();
 	}
 
 	public List<T> find(String hql, List<Object> param, Integer page,
@@ -97,17 +96,18 @@ public class BaseDAOImpl<T>{
 		if (rows == null || rows < 1) {
 			rows = 10;
 		}
-		Query q = this.getCurrentSession().createQuery(hql);
+		javax.persistence.Query q = this.manager.createQuery(hql);
 		if (param != null && param.size() > 0) {
 			for (int i = 0; i < param.size(); i++) {
 				q.setParameter(i, param.get(i));
 			}
 		}
-		return q.setFirstResult((page - 1) * rows).setMaxResults(rows).list();
+		return q.setFirstResult((page - 1) * rows).setMaxResults(rows)
+				.getResultList();
 	}
 
 	public T get(Class<T> c, Serializable id) {
-		return (T) this.getCurrentSession().get(c, id);
+		return (T) this.manager.find(c, id);
 	}
 
 	public T get(String hql, Object[] param) {
@@ -129,35 +129,35 @@ public class BaseDAOImpl<T>{
 	}
 
 	public Long count(String hql) {
-		return (Long) this.getCurrentSession().createQuery(hql).uniqueResult();
+		return (long) this.manager.createQuery(hql).getMaxResults();
 	}
 
 	public Long count(String hql, Object[] param) {
-		Query q = this.getCurrentSession().createQuery(hql);
+		javax.persistence.Query q = this.manager.createQuery(hql);
 		if (param != null && param.length > 0) {
 			for (int i = 0; i < param.length; i++) {
 				q.setParameter(i, param[i]);
 			}
 		}
-		return (Long) q.uniqueResult();
+		return (long) q.getMaxResults();
 	}
 
 	public Long count(String hql, List<Object> param) {
-		Query q = this.getCurrentSession().createQuery(hql);
+		javax.persistence.Query q = this.manager.createQuery(hql);
 		if (param != null && param.size() > 0) {
 			for (int i = 0; i < param.size(); i++) {
 				q.setParameter(i, param.get(i));
 			}
 		}
-		return (Long) q.uniqueResult();
+		return (long) q.getMaxResults();
 	}
 
 	public Integer executeHql(String hql) {
-		return this.getCurrentSession().createQuery(hql).executeUpdate();
+		return this.manager.createQuery(hql).executeUpdate();
 	}
 
 	public Integer executeHql(String hql, Object[] param) {
-		Query q = this.getCurrentSession().createQuery(hql);
+		javax.persistence.Query q = this.manager.createQuery(hql);
 		if (param != null && param.length > 0) {
 			for (int i = 0; i < param.length; i++) {
 				q.setParameter(i, param[i]);
@@ -167,7 +167,7 @@ public class BaseDAOImpl<T>{
 	}
 
 	public Integer executeHql(String hql, List<Object> param) {
-		Query q = this.getCurrentSession().createQuery(hql);
+		javax.persistence.Query q = this.manager.createQuery(hql);
 		if (param != null && param.size() > 0) {
 			for (int i = 0; i < param.size(); i++) {
 				q.setParameter(i, param.get(i));

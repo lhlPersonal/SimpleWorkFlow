@@ -10,14 +10,21 @@ import org.springframework.stereotype.Service;
 import antlr.collections.List;
 
 import com.lhl.sw.dao.BaseDAO;
+import com.lhl.sw.po.AttendType;
 import com.lhl.sw.po.Employee;
 import com.lhl.sw.po.Manager;
 import com.lhl.sw.po.Payment;
 import com.lhl.sw.service.EmpService;
+import com.lhl.sw.vo.AttendBean;
+import com.lhl.sw.vo.PaymentBean;
 
 @Service
 @Transactional
 public class EmpSerivceImpl implements EmpService {
+
+	private EmpSerivceImpl() {
+		System.out.println("aaa");
+	}
 
 	@Autowired
 	private BaseDAO<Payment> payDao;
@@ -44,5 +51,59 @@ public class EmpSerivceImpl implements EmpService {
 	@Override
 	public Employee getEmpById(Integer empId) {
 		return empDao.get(Employee.class, empId);
+	}
+
+	@Override
+	public int validLogin(Manager mgr) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void autoPunch() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void autoPay() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public int validPunch(String user, String dutyDay) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int punch(String user, String dutyDay, boolean isCome) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public java.util.List<PaymentBean> empSalary(String empName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public java.util.List<AttendBean> unAttend(String empName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public java.util.List<AttendType> getAllType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean addApplication(int attId, int typeId, String reason) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

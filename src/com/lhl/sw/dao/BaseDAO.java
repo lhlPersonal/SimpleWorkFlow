@@ -3,12 +3,6 @@ package com.lhl.sw.dao;
 import java.io.Serializable;
 import java.util.List;
  
-/**
- * ����ݿ������
- * 
- * @author ss
- * 
- */
 public interface BaseDAO<T> {
  
 	/**

@@ -1,32 +1,168 @@
-<?xml version="1.0" encoding="UTF-8" ?> 
+<?xml version="1.0" encoding="GBK"?>
+<!-- Ö¸¶¨Struts2ÅäÖÃÎÄ¼şµÄDTDĞÅÏ¢ -->
 <!DOCTYPE struts PUBLIC
-    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
-    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+	"-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+	"http://struts.apache.org/dtds/struts-2.1.7.dtd">
+<!-- Struts2ÅäÖÃÎÄ¼şµÄ¸ùÔªËØ -->
 <struts>
-	<!-- é…ç½®ä¸ºå¼€å‘æ¨¡å¼ -->
+	<!-- ÅäÖÃÁËÏµÁĞ³£Á¿ -->
+	<constant name="struts.custom.i18n.resources" value="resource" />
+	<constant name="struts.i18n.encoding" value="GBK" />
 	<constant name="struts.devMode" value="true" />
-	<!-- é…ç½®ä¸Šä¼ æ–‡ä»¶å¤§å°æ­¤å¤„é»˜è®¤ä¸º20M -->
-	<constant name="struts.multipart.maxSize" value="2097152" />
-	<!-- å›½é™…åŒ–ç¼–ç  -->
-	<constant name="struts.i18n.encoding" value="UTF-8" />
-	<!-- å½“strutsçš„é…ç½®æ–‡ä»¶ä¿®æ”¹å,ç³»ç»Ÿæ˜¯å¦è‡ªåŠ¨é‡æ–°åŠ è½½è¯¥æ–‡ä»¶,é»˜è®¤å€¼ä¸ºfalse(ç”Ÿäº§ç¯å¢ƒä¸‹ä½¿ç”¨),å¼€å‘é˜¶æ®µæœ€å¥½æ‰“å¼€ -->
-	<constant name="struts.configuration.xml.reload" value="true" />
+	<package name="default" extends="struts-default">
+		<interceptors>
+			<!-- ÅäÖÃÆÕÍ¨Ô±¹¤½ÇÉ«µÄÈ¨ÏŞ¼ì²éÀ¹½ØÆ÷ -->
+			<interceptor name="empAuth"
+				class="com.lhl.sw.action.authority.EmpAuthorityInterceptor" />
+			<!-- ÅäÖÃ¾­Àí½ÇÉ«µÄÈ¨ÏŞ¼ì²éÀ¹½ØÆ÷ -->
+			<interceptor name="mgrAuth"
+				class="com.lhl.sw.action.authority.MgrAuthorityInterceptor" />
+			<!-- ÅäÖÃÆÕÍ¨Ô±¹¤µÄÄ¬ÈÏµÄÀ¹½ØÆ÷Õ» -->
+			<interceptor-stack name="empStack">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="empAuth" />
+			</interceptor-stack>
+			<!-- ÅäÖÃ¾­ÀíµÄÄ¬ÈÏµÄÀ¹½ØÆ÷Õ» -->
+			<interceptor-stack name="mgrStack">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="mgrAuth" />
+			</interceptor-stack>
+		</interceptors>
 
-	<package name="default" namespace="/" extends="struts-default">
-		<!-- <interceptors> é‡æ–°å®šä¹‰defaultStackæ‹¦æˆªå™¨æ ˆï¼Œéœ€è¦å…ˆåˆ¤æ–­æƒé™ <interceptor-stack name="defaultStack"> 
-			<interceptor-ref name="defaultStack" /> </interceptor-stack> </interceptors> -->
+		<!-- ¶¨ÒåÈ«¾ÖResultÓ³Éä -->
+		<global-results>
+			<!-- ¶¨Òåsql¡¢rootÁ½¸öÒì³£¶ÔÓ¦µÄÊÓÍ¼Ò³ -->
+			<result name="business">/content/error.jsp</result>
+			<result name="root">/content/error.jsp</result>
+			<!-- ¶¨ÒåloginÂß¼­ÊÓÍ¼¶ÔÓ¦µÄÊÓÍ¼×ÊÔ´ -->
+			<result name="login">/content/login.jsp</result>
+		</global-results>
 
-		<!-- é…ç½®å…¨å±€çš„Result -->
-		<!-- <global-results> <result name="loginUI">/WEB-INF/jsp/userAction/loginUI.jsp</result> 
-			<result name="noPrivilegeError">/noPrivilegeError.jsp</result> </global-results> -->
+		<!-- ¶¨ÒåÈ«¾ÖÒì³£Ó³Éä -->
+		<global-exception-mappings>
+			<!-- µ±ActionÖĞÓöµ½HrExceptionÒì³£Ê±£¬ ÏµÍ³½«×ªÈënameÎªbusinessµÄ½á¹ûÖĞ -->
+			<exception-mapping exception="com.lhl.sw.exception.HrException"
+				result="business" />
+			<!-- µ±ActionÖĞÓöµ½ExceptionÒì³£Ê±£¬ ÏµÍ³½«×ªÈënameÎªrootµÄ½á¹ûÖĞ -->
+			<exception-mapping exception="java.lang.Exception"
+				result="root" />
+		</global-exception-mappings>
 
-		<!-- æµ‹è¯•ç”¨çš„actionï¼Œå½“ä¸Springæ•´åˆåï¼Œclasså±æ€§å†™çš„å°±æ˜¯Springä¸­beançš„åç§° ä¸éœ€è¦å†™com.oa168.test.TestActionå½¢å¼ 
-			æ‰€ä»¥æ•´åˆå°±æ˜¯åœ¨Actionç±»ä¸­åŠ å…¥@Controller @Scope("prototype") å¹¶åœ¨Web.xmlä¸­åŠ å…¥ç›‘å¬å™¨ <listener> 
-			<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> 
-			</listener> <context-param> <param-name>contextConfigLocation</param-name> 
-			<param-value>classpath:applicationContext*.xml</param-value> </context-param> -->
-		<action name="test" class="testAction">
-			<result name="success">/success.jsp</result>
+		<!--============================ÏÂÃæÊÇÔ±¹¤½ÇÉ«µÄAction======================== -->
+		<!-- ¶¨Òå´¦ÀíµÇ³öÇëÇóµÄAction -->
+		<action name="logout" class="com.lhl.sw.action.LogoutAction">
+			<result>/content/main.jsp</result>
+		</action>
+		<!-- ¶¨Òå´¦ÀíµÇÂ¼ÏµÍ³µÄµÄAction -->
+		<action name="processLogin" class="com.lhl.sw.action.LoginAction">
+			<result name="input">/content/login.jsp</result>
+			<result name="mgr">/content/manager/index.jsp</result>
+			<result name="emp">/content/employee/index.jsp</result>
+			<result name="error">/content/login.jsp</result>
+		</action>
+		<!-- ½øÈë´ò¿¨ -->
+		<action name="*Punch" class="com.lhl.sw.action.PunchAction">
+			<interceptor-ref name="empStack" />
+			<result>/content/{1}/punch.jsp</result>
+		</action>
+
+		<!-- ´¦ÀíÉÏ°à´ò¿¨ -->
+		<action name="*Come" method="come"
+			class="com.lhl.sw.action.ProcessPunchAction">
+			<interceptor-ref name="empStack" />
+			<result>/content/{1}/index.jsp</result>
+		</action>
+		<!-- ´¦ÀíÏÂ°à´ò¿¨ -->
+		<action name="*Leave" method="leave"
+			class="com.lhl.sw.action.ProcessPunchAction">
+			<interceptor-ref name="empStack" />
+			<result>/content/{1}/index.jsp</result>
+		</action>
+
+		<!-- ²é¿´×Ô¼ºµÄ·ÇÕı³£³öÇÚ -->
+		<action name="viewUnPunch" class="com.lhl.sw.action.ViewUnAttendAction">
+			<interceptor-ref name="basicStack" />
+			<interceptor-ref name="empAuth" />
+			<result>/content/employee/viewUnAttend.jsp</result>
+		</action>
+
+		<!-- ½øÈëÒì¶¯ÉêÇë -->
+		<action name="appChange" class="com.lhl.sw.action.AppChangeAction">
+			<interceptor-ref name="store">
+				<param name="operationMode">RETRIEVE</param>
+			</interceptor-ref>
+			<interceptor-ref name="basicStack" />
+			<interceptor-ref name="empAuth" />
+			<result>/content/employee/appChange.jsp</result>
+		</action>
+
+		<!-- Ìá½»Òì¶¯ÉêÇë -->
+		<action name="processApp" class="com.lhl.sw.action.ProcessAppAction">
+			<interceptor-ref name="store">
+				<param name="operationMode">STORE</param>
+			</interceptor-ref>
+			<interceptor-ref name="empStack" />
+			<!-- <result name="input" type="redirect">
+				/appChange.action?attid=${attId}
+			</result> -->
+			<result>/content/employee/index.jsp</result>
+		</action>
+
+		<!-- ²é¿´±¾ÈË¹¤×ÊµÄAction -->
+		<action name="view*Salary" class="com.lhl.sw.action.ViewSalaryAction">
+			<interceptor-ref name="basicStack" />
+			<interceptor-ref name="empAuth" />
+			<result>/content/{1}/viewSalary.jsp</result>
+		</action>
+
+		<!--============================ÏÂÃæÊÇ¾­Àí½ÇÉ«µÄAction======================== -->
+		<action name="viewDeptSal" class="com.lhl.sw.action.ViewDeptAction">
+			<interceptor-ref name="basicStack" />
+			<interceptor-ref name="mgrAuth" />
+			<result>/content/manager/viewDeptSal.jsp</result>
+		</action>
+
+		<!-- ¾­Àí²é¿´Ô±¹¤ -->
+		<action name="viewEmp" class="com.lhl.sw.action.ViewEmpAction">
+			<interceptor-ref name="basicStack" />
+			<interceptor-ref name="mgrAuth" />
+			<result>/content/manager/viewEmp.jsp</result>
+		</action>
+
+		<!-- ¾­Àí²é¿´ÉêÇë -->
+		<action name="viewApp" class="com.lhl.sw.action.ViewAppAction">
+			<interceptor-ref name="basicStack" />
+			<interceptor-ref name="mgrAuth" />
+			<result>/content/manager/viewApps.jsp</result>
+		</action>
+
+		<!-- ½øÈëÌí¼ÓÔ±¹¤ -->
+		<action name="addEmp">
+			<interceptor-ref name="mgrStack" />
+			<result>/content/manager/addEmp.jsp</result>
+		</action>
+
+		<!-- ¾­ÀíÔö¼ÓÔ±¹¤ -->
+		<action name="processAdd" class="com.lhl.sw.action.AddEmpAction">
+			<!-- Ê¹ÓÃÏµÍ³Ä¬ÈÏµÄÀ¹½ØÆ÷Õ» -->
+			<interceptor-ref name="mgrStack" />
+			<!-- Ê¹ÓÃ·ÀË¢ĞÂµÄtokenÀ¹½ØÆ÷ -->
+			<interceptor-ref name="token" />
+			<!-- ¶¨ÒåÖØ¸´Ìá½»×ªÏòµÄÊÓÍ¼£¬¸ÃÂß¼­ÊÓÍ¼Ãû±ØĞëÊÇinvalid.token -->
+			<result name="invalid.token">/content/manager/addEmp.jsp</result>
+			<result name="input">/content/manager/addEmp.jsp</result>
+			<result name="failure">/content/manager/addEmp.jsp</result>
+			<result>/content/manager/index.jsp</result>
+		</action>
+
+		<!-- ¾­Àí´¦ÀíÉêÇë -->
+		<action name="check" class="com.lhl.sw.action.CheckAppAction">
+			<interceptor-ref name="mgrStack" />
+			<result type="chain">viewApp</result>
+		</action>
+
+		<action name="*">
+			<result>/content/{1}.jsp</result>
 		</action>
 	</package>
 </struts>

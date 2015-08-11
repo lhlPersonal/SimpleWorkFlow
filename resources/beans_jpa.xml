@@ -29,8 +29,8 @@
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 				<property name="database" value="MYSQL"></property>
 			</bean>
-		</property> -->
-	<!-- 	<property name="jpaDialect">
+		</property> 
+	 	<property name="jpaDialect">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"></bean>
 		</property> -->
 		<property name="jpaProperties">

@@ -1,3 +1,9 @@
+/**   
+ * @author lihailong
+ * @date 2015-05-13
+ * @Description: service for employee
+ * @version 1.0   
+ */
 package com.lhl.sw.service.impl;
 
 import java.util.Set;
@@ -21,11 +27,6 @@ import com.lhl.sw.vo.PaymentBean;
 @Service
 @Transactional
 public class EmpSerivceImpl implements EmpService {
-
-	private EmpSerivceImpl() {
-		System.out.println("aaa");
-	}
-
 	@Autowired
 	private BaseDAO<Payment> payDao;
 	@Autowired
@@ -55,8 +56,21 @@ public class EmpSerivceImpl implements EmpService {
 
 	@Override
 	public int validLogin(Manager mgr) {
-		// TODO Auto-generated method stub
-		return 0;
+		if (mgr != null) {
+			// 问号传递参数时必须从0开始，且为连续值才行，用别名则不必指定数字。
+			Employee emp = empDao
+					.get("select e from Employee as e where e.name=?0 and e.password=?1",
+							new Object[] { mgr.getName(), mgr.getPassword() });
+
+			if (emp != null) {
+				if (emp.getManager() != null) {
+					return LOGIN_EMP;
+				} else {
+					return LOGIN_MGR;
+				}
+			}
+		}
+		return LOGIN_FAIL;
 	}
 
 	@Override

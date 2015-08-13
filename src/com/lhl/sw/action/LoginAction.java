@@ -1,22 +1,26 @@
+/**   
+ * @author lihailong
+ * @date 2015-05-13
+ * @Description: login action
+ * @version 1.0   
+ */
 package com.lhl.sw.action;
+
+import java.util.HashMap;
 
 import com.lhl.sw.action.base.EmpBaseAction;
 import com.lhl.sw.po.Manager;
+import com.lhl.sw.util.Constant;
+import com.lhl.sw.util.Util;
 import com.opensymphony.xwork2.ActionContext;
 
 public class LoginAction extends EmpBaseAction {
-	// ����һ��������ΪԱ����¼�ɹ���Result��
 	private final String EMP_RESULT = "emp";
-	// ����һ��������Ϊ�����¼�ɹ���Result��
 	private final String MGR_RESULT = "mgr";
-	// ��װ�������
 	private Manager manager;
-	// ��¼����֤��
 	private String vercode;
-	// �����¼�����ʾ��Ϣ
 	private String tip;
 
-	// manager���Ե�setter��getter����
 	public void setManager(Manager manager) {
 		this.manager = manager;
 	}
@@ -25,7 +29,6 @@ public class LoginAction extends EmpBaseAction {
 		return this.manager;
 	}
 
-	// vercode���Ե�setter��getter����
 	public void setVercode(String vercode) {
 		this.vercode = vercode;
 	}
@@ -34,7 +37,6 @@ public class LoginAction extends EmpBaseAction {
 		return this.vercode;
 	}
 
-	// tip���Ե�setter��getter����
 	public void setTip(String tip) {
 		this.tip = tip;
 	}
@@ -43,47 +45,28 @@ public class LoginAction extends EmpBaseAction {
 		return this.tip;
 	}
 
-	// �����û�����
 	public String execute() {
-		// ����ActionContextʵ��
-		ActionContext ctx = ActionContext.getContext();
-		// ��ȡHttpSession�е�rand����
-		String ver2 = (String) ctx.getSession().get("rand");
-		if (vercode.equalsIgnoreCase(ver2)) {
-			// ����ҵ���߼������������¼����
-			int result = mgr.validLogin(getManager());
-			// ��¼���Ϊ��ͨԱ��
-			// if (result == LOGIN_EMP)
-			// {
-			// ctx.getSession().put(WebConstant.USER
-			// , manager.getName());
-			// ctx.getSession().put(WebConstant.LEVEL
-			// , WebConstant.EMP_LEVEL);
-			// setTip("���Ѿ��ɹ���¼ϵͳ");
-			// return EMP_RESULT;
-			// }
-			// //��¼���Ϊ����
-			// else if (result == LOGIN_MGR)
-			// {
-			// ctx.getSession().put(WebConstant.USER
-			// , manager.getName());
-			// ctx.getSession().put(WebConstant.LEVEL
-			// , WebConstant.MGR_LEVEL);
-			// setTip("���Ѿ��ɹ���¼ϵͳ");
-			// return MGR_RESULT;
-			// }
-			// //�û�������벻ƥ��
-			// else
-			// {
-			// setTip("�û���/���벻ƥ��");
-			// return ERROR;
-			// }
+		// 获取验证码
+		String authCode = String.valueOf(ActionContext.getContext()
+				.getSession().get(Constant.AUTH_CODE));
+
+		if (!Util.isNullOrEmpty(authCode)) {
+			// 验证码正确
+			if (authCode.equalsIgnoreCase(vercode)) {
+				int result = mgr.validLogin(manager);
+
+				if (result != mgr.LOGIN_FAIL) {
+					ActionContext.getContext().getSession()
+							.put(Constant.USER, manager.getName());
+
+					if (result == mgr.LOGIN_EMP) {
+						return EMP_RESULT;
+					} else if (result == mgr.LOGIN_MGR) {
+						return MGR_RESULT;
+					}
+				}
+			}
 		}
-		// ��֤�벻ƥ��
-		else {
-			setTip("��֤�벻ƥ��,����������");
-			return ERROR;
-		}
-		return SUCCESS;
+		return ERROR;
 	}
 }

@@ -1,10 +1,10 @@
 package com.lhl.sw.dao;
- 
+
 import java.io.Serializable;
 import java.util.List;
- 
+
 public interface BaseDAO<T> {
- 
+
 	/**
 	 * ����һ������
 	 * 
@@ -12,28 +12,28 @@ public interface BaseDAO<T> {
 	 * @return
 	 */
 	public Serializable save(T o);
- 
+
 	/**
 	 * ɾ��һ������
 	 * 
 	 * @param o
 	 */
 	public void delete(T o);
- 
+
 	/**
 	 * ����һ������
 	 * 
 	 * @param o
 	 */
 	public void update(T o);
- 
+
 	/**
 	 * �������¶���
 	 * 
 	 * @param o
 	 */
 	public void saveOrUpdate(T o);
- 
+
 	/**
 	 * ��ѯ
 	 * 
@@ -41,7 +41,7 @@ public interface BaseDAO<T> {
 	 * @return
 	 */
 	public List<T> find(String hql);
- 
+
 	/**
 	 * ��ѯ����
 	 * 
@@ -50,7 +50,7 @@ public interface BaseDAO<T> {
 	 * @return
 	 */
 	public List<T> find(String hql, Object[] param);
- 
+
 	/**
 	 * ��ѯ����
 	 * 
@@ -59,7 +59,16 @@ public interface BaseDAO<T> {
 	 * @return
 	 */
 	public List<T> find(String hql, List<Object> param);
- 
+
+	/**
+	 * 查找单个实例
+	 * 
+	 * @param hql
+	 * @param param
+	 * @return
+	 */
+	public T findT(String hql, List<Object> param);
+
 	/**
 	 * ��ѯ����(���ҳ)
 	 * 
@@ -72,7 +81,7 @@ public interface BaseDAO<T> {
 	 * @return
 	 */
 	public List<T> find(String hql, Object[] param, Integer page, Integer rows);
- 
+
 	/**
 	 * ��ѯ����(���ҳ)
 	 * 
@@ -82,8 +91,9 @@ public interface BaseDAO<T> {
 	 * @param rows
 	 * @return
 	 */
-	public List<T> find(String hql, List<Object> param, Integer page, Integer rows);
- 
+	public List<T> find(String hql, List<Object> param, Integer page,
+			Integer rows);
+
 	/**
 	 * ���һ������
 	 * 
@@ -93,7 +103,7 @@ public interface BaseDAO<T> {
 	 * @return Object
 	 */
 	public T get(Class<T> c, Serializable id);
- 
+
 	/**
 	 * ���һ������
 	 * 
@@ -102,7 +112,7 @@ public interface BaseDAO<T> {
 	 * @return Object
 	 */
 	public T get(String hql, Object[] param);
- 
+
 	/**
 	 * ���һ������
 	 * 
@@ -111,7 +121,7 @@ public interface BaseDAO<T> {
 	 * @return
 	 */
 	public T get(String hql, List<Object> param);
- 
+
 	/**
 	 * select count(*) from ��
 	 * 
@@ -119,7 +129,7 @@ public interface BaseDAO<T> {
 	 * @return
 	 */
 	public Long count(String hql);
- 
+
 	/**
 	 * select count(*) from ��
 	 * 
@@ -128,7 +138,7 @@ public interface BaseDAO<T> {
 	 * @return
 	 */
 	public Long count(String hql, Object[] param);
- 
+
 	/**
 	 * select count(*) from ��
 	 * 
@@ -137,7 +147,7 @@ public interface BaseDAO<T> {
 	 * @return
 	 */
 	public Long count(String hql, List<Object> param);
- 
+
 	/**
 	 * ִ��HQL���
 	 * 
@@ -145,7 +155,7 @@ public interface BaseDAO<T> {
 	 * @return ��Ӧ��Ŀ
 	 */
 	public Integer executeHql(String hql);
- 
+
 	/**
 	 * ִ��HQL���
 	 * 
@@ -154,7 +164,7 @@ public interface BaseDAO<T> {
 	 * @return ��Ӧ��Ŀ
 	 */
 	public Integer executeHql(String hql, Object[] param);
- 
+
 	/**
 	 * ִ��HQL���
 	 * 
@@ -163,5 +173,5 @@ public interface BaseDAO<T> {
 	 * @return
 	 */
 	public Integer executeHql(String hql, List<Object> param);
- 
+
 }

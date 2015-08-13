@@ -2,6 +2,7 @@ package com.lhl.sw.action;
 
 import com.lhl.sw.action.base.MgrBaseAction;
 import com.lhl.sw.po.Employee;
+import com.lhl.sw.util.Constant;
 import com.opensymphony.xwork2.ActionContext;
 
 
@@ -38,7 +39,7 @@ public class AddEmpAction extends MgrBaseAction
 		ActionContext ctx = ActionContext.getContext();
 		//��ȡHttpSession�е�user����
 		String mgrName = (String)ctx.getSession()
-			.get(WebConstant.USER);
+			.get(Constant.USER);
 		//������û�
 		mgr.addEmp(emp , mgrName);
 		setTip("����Ա���ɹ�");

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="GBK"?>
 <!DOCTYPE validators PUBLIC 
-	"-//OpenSymphony Group//XWork Validator 1.0.3//EN"
-	"http://www.opensymphony.com/xwork/xwork-validator-1.0.3.dtd">
+"-//Apache Struts//XWork Validator 1.0.3//EN" 
+"http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
 <validators>
 	<field name="attId">
 		<field-validator type="required">
@@ -18,7 +18,7 @@
 			<message>申请理由必填！</message>
 		</field-validator>
 		<field-validator type="regex">
-			<param name="expression"><![CDATA[(\w{6,})]]></param>
+			<param name="regexExpression"><![CDATA[(\w{6,})]]></param>
 			<message>申请理由的长度必须在大于6个字符</message>
 		</field-validator>
 	</field>

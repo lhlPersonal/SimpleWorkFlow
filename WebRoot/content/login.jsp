@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
 <title>登录系统</title>
-<s:head/>
+<script src="js/jquery.js"></script>
 </head>
 <body>
 <%@include file="header.jsp"%>
@@ -23,14 +23,14 @@
 <div align="center">
 <s:form action="processLogin">
 	<s:textfield name="manager.name" label="用户名"/>
-	<s:textfield name="manager.pass" label="密码"/>
+	<s:textfield name="manager.password" label="密码"/>
 	<s:textfield name="vercode" label="验证码"/>
 	<tr><td colspan="2">
 	<s:submit value="登录" theme="simple"/><s:reset  theme="simple" value="重填"/>
 	</td></tr>
 </s:form>
 </div>
-验证码：<img name="d" src="authImg">
+验证码：<img name="d" src="authImg" onclick="refresh(this)">
 </td>
 </tr>
 </table>

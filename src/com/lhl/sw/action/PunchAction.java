@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.lhl.sw.action.base.EmpBaseAction;
+import com.lhl.sw.util.Constant;
 import com.opensymphony.xwork2.ActionContext;
 
 public class PunchAction
@@ -27,7 +28,7 @@ public class PunchAction
 		ActionContext ctx = ActionContext.getContext();
 		//��ȡHttpSession�е�user����
 		String user = (String)ctx.getSession()
-			.get(WebConstant.USER);
+			.get(Constant.USER);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		//��ʽ����ǰʱ��
 		String dutyDay = sdf.format(new Date());

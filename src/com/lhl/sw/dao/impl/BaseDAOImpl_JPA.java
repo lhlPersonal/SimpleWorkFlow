@@ -1,6 +1,7 @@
 package com.lhl.sw.dao.impl;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -22,14 +23,6 @@ public class BaseDAOImpl_JPA<T> implements BaseDAO<T> {
 	@PersistenceContext
 	private EntityManager manager;
 
-	public EntityManager getManager() {
-		return manager;
-	}
-
-	public void setManager(EntityManager manager) {
-		this.manager = manager;
-	}
-
 	public Serializable save(T o) {
 		this.manager.persist(o);
 		return "1";
@@ -45,6 +38,20 @@ public class BaseDAOImpl_JPA<T> implements BaseDAO<T> {
 
 	public void saveOrUpdate(T o) {
 		this.update(o);
+	}
+
+	@Override
+	public T findT(String hql, List<Object> param) {
+		javax.persistence.Query q = this.manager.createQuery(hql);
+
+		if (param != null && !param.isEmpty()) {
+			int size = param.size();
+
+			for (int i = 0; i < size; i++) {
+				q.setParameter(i, param.get(i));
+			}
+		}
+		return (T) q.getSingleResult();
 	}
 
 	public List<T> find(String hql) {
@@ -111,21 +118,11 @@ public class BaseDAOImpl_JPA<T> implements BaseDAO<T> {
 	}
 
 	public T get(String hql, Object[] param) {
-		List<T> l = this.find(hql, param);
-		if (l != null && l.size() > 0) {
-			return l.get(0);
-		} else {
-			return null;
-		}
+		return this.findT(hql, Arrays.asList(param));
 	}
 
 	public T get(String hql, List<Object> param) {
-		List<T> l = this.find(hql, param);
-		if (l != null && l.size() > 0) {
-			return l.get(0);
-		} else {
-			return null;
-		}
+		return this.findT(hql, param);
 	}
 
 	public Long count(String hql) {

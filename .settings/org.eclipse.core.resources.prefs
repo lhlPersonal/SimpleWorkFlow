@@ -1,5 +1,9 @@
 eclipse.preferences.version=1
+encoding//WebRoot/page/employee/index.jsp=UTF-8
+encoding//WebRoot/page/error.jsp=UTF-8
 encoding//WebRoot/page/include/header.jsp=UTF-8
 encoding//WebRoot/page/login.jsp=UTF-8
-encoding//resources/resource.properties=UTF-8
+encoding//WebRoot/page/main.jsp=UTF-8
+encoding//WebRoot/page/manager/index.jsp=UTF-8
+encoding//resources/prop/resource.properties=UTF-8
 encoding//src/com/lhl/sw/action/LoginAction.java=UTF-8

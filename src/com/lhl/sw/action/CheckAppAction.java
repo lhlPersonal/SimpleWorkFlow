@@ -1,6 +1,7 @@
 package com.lhl.sw.action;
 
 import com.lhl.sw.action.base.MgrBaseAction;
+import com.lhl.sw.util.Constant;
 import com.opensymphony.xwork2.ActionContext;
 
 public class CheckAppAction extends MgrBaseAction
@@ -47,7 +48,7 @@ public class CheckAppAction extends MgrBaseAction
 		ActionContext ctx = ActionContext.getContext();
 		//��ȡHttpSession�е�user����
 		String mgrName = (String)ctx.getSession()
-			.get(WebConstant.USER);
+			.get(Constant.USER);
 		//ͨ������
 		if (result.equals("pass"))
 		{

@@ -1,10 +1,8 @@
 package com.lhl.sw.action.authority;
 
 import com.opensymphony.xwork2.*;
-
 import com.opensymphony.xwork2.interceptor.*;
-
-import com.lhl.sw.action.WebConstant;
+import com.lhl.sw.util.Constant;
 
 public class EmpAuthorityInterceptor
 	extends AbstractInterceptor
@@ -16,11 +14,11 @@ public class EmpAuthorityInterceptor
 		ActionContext ctx = ActionContext.getContext();
 		//��ȡHttpSession�е�level����
 		String level = (String)ctx.getSession()
-			.get(WebConstant.LEVEL);
+			.get(Constant.LEVEL);
 		//���level��Ϊnull����levelΪemp��mgr
 		if (level != null 
-			&& (level.equals(WebConstant.EMP_LEVEL) 
-			|| level.equals(WebConstant.MGR_LEVEL)))
+			&& (level.equals(Constant.EMP_LEVEL) 
+			|| level.equals(Constant.MGR_LEVEL)))
 		{
 			return invocation.invoke();
 		}

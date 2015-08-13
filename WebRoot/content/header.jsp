@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=gb2312"%>
-<link href="${pageContext.request.contextPath}/images/css.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/css/css.css" rel="stylesheet" type="text/css">
 <body topmargin="0">
 <table width="780" align="center"
 	background="${pageContext.request.contextPath}/images/bodybg.jpg">

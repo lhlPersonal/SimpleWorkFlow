@@ -15,6 +15,9 @@
 			not-null="true"></many-to-one>
 		<many-to-one name="employee" column="t_emp" class="Employee"
 			not-null="true"></many-to-one>
-		<property name="attendTime" column="attend_time" type="timestamp" />
+		<property name="comeTime" column="come_time" type="time" />
+		<property name="leaveTime" column="leave_time" type="time" />
+		<property name="date" column="attend_date" type="date" />
+
 	</class>
 </hibernate-mapping>

@@ -47,3 +47,22 @@ function MyAutoRun() {
 		}
 	});
 }
+
+$('#mySelect').change(function() {
+
+	var para = $(this).children('option:selected').val();// 这就是selected的值
+
+	$.ajax({
+		url : 'selectProductTypeWeb.action',
+		type : 'post',
+		data : {
+			'fatherId' : 0
+		},
+		dataType : 'json',
+		error : function() {
+		},
+		success : function(backValue) {
+
+		}
+	});
+})

@@ -6,16 +6,23 @@
  */
 package com.lhl.sw.service.impl;
 
+import java.time.Clock;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Set;
 
+import javax.swing.text.html.ObjectView;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import antlr.collections.List;
-
 import com.lhl.sw.dao.BaseDAO;
+import com.lhl.sw.po.Attend;
 import com.lhl.sw.po.AttendType;
 import com.lhl.sw.po.Employee;
 import com.lhl.sw.po.Manager;
@@ -31,6 +38,9 @@ public class EmpSerivceImpl implements EmpService {
 	private BaseDAO<Payment> payDao;
 	@Autowired
 	private BaseDAO<Employee> empDao;
+
+	@Autowired
+	private BaseDAO<Attend> attDao;
 
 	public void savePayment(Payment pay) {
 		payDao.save(pay);
@@ -55,7 +65,7 @@ public class EmpSerivceImpl implements EmpService {
 	}
 
 	@Override
-	public int validLogin(Manager mgr) {
+	public int[] validLogin(Manager mgr) {
 		if (mgr != null) {
 			// 问号传递参数时必须从0开始，且为连续值才行，用别名则不必指定数字。
 			Employee emp = empDao
@@ -64,13 +74,13 @@ public class EmpSerivceImpl implements EmpService {
 
 			if (emp != null) {
 				if (emp.getManager() != null) {
-					return LOGIN_EMP;
+					return new int[] { LOGIN_EMP, emp.getId() };
 				} else {
-					return LOGIN_MGR;
+					return new int[] { LOGIN_MGR, emp.getId() };
 				}
 			}
 		}
-		return LOGIN_FAIL;
+		return new int[] { LOGIN_FAIL };
 	}
 
 	@Override
@@ -85,10 +95,35 @@ public class EmpSerivceImpl implements EmpService {
 
 	}
 
+	/**
+	 * 1.时间是否在打卡时间范围内。2.是否已经打了卡。3.上午没打而下午也可以打。 上午：可打卡的条件，数据库中没有今天的出勤记录。
+	 * 下午：下午没有打过卡。
+	 */
 	@Override
-	public int validPunch(String user, String dutyDay) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int validPunch(int userId, Date dutyDay) {
+		// 上午9:30之前可上班打卡
+		ZonedDateTime date = ZonedDateTime.now();
+
+		if (date.getHour() < 10 && date.getMinute() <= 30) {
+			Attend attend = attDao
+					.get("select a from Attend a where a.employee.id=?0 and a.date=?1",
+							new Object[] { userId, dutyDay });
+
+			if (attend == null) {
+				return COME_PUNCH;
+			}
+		} // 下午18:00后可下班打卡
+		else if (date.getHour() >= 18) {
+			Attend attend = attDao
+					.get("select a from Attend a where a.employee.id=?0 and a.date=?1",
+							new Object[] { userId, dutyDay });
+
+			if (attend.getLeaveTime() == null) {
+				return LEAVE_PUNCH;
+			}
+		}
+
+		return NO_PUNCH;
 	}
 
 	@Override
@@ -120,4 +155,5 @@ public class EmpSerivceImpl implements EmpService {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 }

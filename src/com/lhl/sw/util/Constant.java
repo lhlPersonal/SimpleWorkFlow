@@ -10,5 +10,7 @@ public interface Constant
 	
 	String USER = "user";
 	
+	String USER_ID = "user_id";
+	
 	String AUTH_CODE="auth_code";
 }

@@ -6,7 +6,9 @@
  */
 package com.lhl.sw.action;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Optional;
 
 import com.lhl.sw.action.base.EmpBaseAction;
 import com.lhl.sw.po.Manager;
@@ -53,15 +55,18 @@ public class LoginAction extends EmpBaseAction {
 		if (!Util.isNullOrEmpty(authCode)) {
 			// 验证码正确
 			if (authCode.equalsIgnoreCase(vercode)) {
-				int result = mgr.validLogin(manager);
+				int[] result = mgr.validLogin(manager);
 
-				if (result != mgr.LOGIN_FAIL) {
+				if (result != null && result.length > 0
+						&& result[0] != mgr.LOGIN_FAIL) {
 					ActionContext.getContext().getSession()
 							.put(Constant.USER, manager.getName());
+					ActionContext.getContext().getSession()
+							.put(Constant.USER_ID, result[1]);
 
-					if (result == mgr.LOGIN_EMP) {
+					if (result[0] == mgr.LOGIN_EMP) {
 						return EMP_RESULT;
-					} else if (result == mgr.LOGIN_MGR) {
+					} else if (result[0] == mgr.LOGIN_MGR) {
 						return MGR_RESULT;
 					}
 				}

@@ -6,7 +6,7 @@
 <!-- Struts2配置文件的根元素 -->
 <struts>
 	<!-- 配置了系列常量 -->
-	<constant name="struts.custom.i18n.resources" value="resource" />
+	<constant name="struts.custom.i18n.resources" value="prop/resource" />
 	<constant name="struts.i18n.encoding" value="utf-8" />
 	<constant name="struts.devMode" value="true" />
 	<package name="default" extends="struts-default">

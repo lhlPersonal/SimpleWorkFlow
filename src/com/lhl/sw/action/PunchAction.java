@@ -1,40 +1,56 @@
+/**   
+ * @author lihailong
+ * @date 2015-05-13
+ * @Description: punch action. 
+ *               come time:before 9:30 am,leave time:after 6:00 pm.
+ * @version 1.0   
+ */
 package com.lhl.sw.action;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Calendar;
 import java.util.Date;
 
 import com.lhl.sw.action.base.EmpBaseAction;
 import com.lhl.sw.util.Constant;
 import com.opensymphony.xwork2.ActionContext;
 
-public class PunchAction
-	extends EmpBaseAction
-{
-	//��װ�������punchIsValid����
-	private int punchIsValid;
-	//punchIsValid���Ե�setter��getter����
-	public void setPunchIsValid(int punchIsValid)
-	{
-		this.punchIsValid = punchIsValid;
+public class PunchAction extends EmpBaseAction {
+	// 可上班打卡
+	private boolean comeValid;
+	// 可下班打卡
+	private boolean leaveValid;
+
+	public boolean isComeValid() {
+		return comeValid;
 	}
-	public int getPunchIsValid()
-	{
-		return this.punchIsValid;
+
+	public void setComeValid(boolean comeValid) {
+		this.comeValid = comeValid;
 	}
-	public String execute()
-		throws Exception
-	{
-		//����ActionContextʵ��
-		ActionContext ctx = ActionContext.getContext();
-		//��ȡHttpSession�е�user����
-		String user = (String)ctx.getSession()
-			.get(Constant.USER);
+
+	public boolean isLeaveValid() {
+		return leaveValid;
+	}
+
+	public void setLeaveValid(boolean leaveValid) {
+		this.leaveValid = leaveValid;
+	}
+
+	public String execute() throws Exception {
+		Date date = Date.from(Instant.now());
+
+		int userid = Integer.valueOf(String.valueOf(ActionContext.getContext()
+				.getSession().get(Constant.USER_ID)));
+
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		//��ʽ����ǰʱ��
-		String dutyDay = sdf.format(new Date());
-		//����ҵ���߼����������û�����
-		int result = mgr.validPunch(user , dutyDay);
-		setPunchIsValid(result);
+
+		int result = mgr.validPunch(userid, Date.from(Instant.now()));
+
+		setComeValid(result == mgr.COME_PUNCH);
+		setLeaveValid(result == mgr.LEAVE_PUNCH);
+
 		return SUCCESS;
 	}
 }

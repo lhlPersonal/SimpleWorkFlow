@@ -51,7 +51,11 @@ public class BaseDAOImpl_JPA<T> implements BaseDAO<T> {
 				q.setParameter(i, param.get(i));
 			}
 		}
-		return (T) q.getSingleResult();
+		if (q.getResultList().size() == 0) {
+			return null;
+		} else {
+			return (T) q.getSingleResult();
+		}
 	}
 
 	public List<T> find(String hql) {

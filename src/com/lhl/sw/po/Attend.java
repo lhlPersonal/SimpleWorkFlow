@@ -6,28 +6,21 @@
  */
 package com.lhl.sw.po;
 
-import java.sql.Timestamp;
-import java.time.Instant;
+import java.sql.Date;
+import java.sql.Time;
 
 public class Attend {
 
 	private Integer id;
-	private Timestamp attendTime;
+	// 考勤日期
+	private Date date;
+
+	// 上班时间
+	private Time comeTime;
+	// 下班时间
+	private Time leaveTime;
 	private AttendType attendType;
 	private Employee employee;
-
-	public Attend() {
-		super();
-	}
-
-	public Attend(Integer id, Timestamp attendTime, AttendType attendType,
-			Employee employee) {
-		super();
-		this.id = id;
-		this.attendTime = attendTime;
-		this.attendType = attendType;
-		this.employee = employee;
-	}
 
 	public Integer getId() {
 		return id;
@@ -37,12 +30,28 @@ public class Attend {
 		this.id = id;
 	}
 
-	public Timestamp getAttendTime() {
-		return attendTime;
+	public Date getDate() {
+		return date;
 	}
 
-	public void setAttendTime(Timestamp attendTime) {
-		this.attendTime = attendTime;
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public Time getComeTime() {
+		return comeTime;
+	}
+
+	public void setComeTime(Time comeTime) {
+		this.comeTime = comeTime;
+	}
+
+	public Time getLeaveTime() {
+		return leaveTime;
+	}
+
+	public void setLeaveTime(Time leaveTime) {
+		this.leaveTime = leaveTime;
 	}
 
 	public AttendType getAttendType() {

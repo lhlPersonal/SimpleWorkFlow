@@ -1,5 +1,6 @@
 package com.lhl.sw.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -59,9 +60,9 @@ public interface EmpService {
 	 * 
 	 * @param mgr
 	 *            登录的经理身份
-	 * @return 登录后的身份确认:0为登录失败，1为登录emp 2为登录mgr
+	 * @return 登录后的身份确认:0为登录失败，1为登录emp 2为登录mgr,另一个元素为id
 	 */
-	int validLogin(Manager mgr);
+	int[] validLogin(Manager mgr);
 
 	/**
 	 * 自动打卡，周一到周五，早上7：00为每个员工插入旷工记录
@@ -82,7 +83,7 @@ public interface EmpService {
 	 *            日期
 	 * @return 可打卡的类别
 	 */
-	int validPunch(String user, String dutyDay);
+	int validPunch(int userId, Date dutyDay);
 
 	/**
 	 * 打卡

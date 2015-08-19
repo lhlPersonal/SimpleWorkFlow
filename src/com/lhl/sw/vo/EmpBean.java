@@ -1,54 +1,55 @@
+/**   
+ * @author lihailong
+ * @date 2015-05-13
+ * @Description: employee bean
+ * @version 1.0   
+ */
 package com.lhl.sw.vo;
 
 import java.io.Serializable;
 
-public class EmpBean implements Serializable
-{
-	private static final long serialVersionUID = 48L;
+public class EmpBean implements Serializable {
+	private int empId;
 	private String empName;
 	private String empPass;
 	private double amount;
 
- 	//�޲���Ĺ�����
-	public EmpBean()
-	{
-	}
-	//��ʼ��ȫ�����ԵĹ�����
-	public EmpBean(String empName , String empPass
-		, double amount)
-	{
+	public EmpBean(int empId, String empName, String empPass, double amount) {
 		this.empName = empName;
 		this.empPass = empPass;
 		this.amount = amount;
+		this.empId = empId;
 	}
 
-	//empName���Ե�setter��getter����
-	public void setEmpName(String empName)
-	{
+	public int getEmpId() {
+		return empId;
+	}
+
+	public void setEmpId(int empId) {
+		this.empId = empId;
+	}
+
+	public void setEmpName(String empName) {
 		this.empName = empName;
 	}
-	public String getEmpName()
-	{
+
+	public String getEmpName() {
 		return this.empName;
 	}
 
-	//empPass���Ե�setter��getter����
-	public void setEmpPass(String empPass)
-	{
+	public void setEmpPass(String empPass) {
 		this.empPass = empPass;
 	}
-	public String getEmpPass()
-	{
+
+	public String getEmpPass() {
 		return this.empPass;
 	}
 
-	//amount���Ե�setter��getter����
-	public void setAmount(double amount)
-	{
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
-	public double getAmount()
-	{
+
+	public double getAmount() {
 		return this.amount;
 	}
 }

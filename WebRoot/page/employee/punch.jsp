@@ -5,18 +5,19 @@
 			<div class="mytitle">电子打卡系统</div></td>
 	</tr>
 	<tr>
-		<td colspan="3" style="text-align : center;"><br /> <br /> <br />
-			<s:if test="comeValid">
+		<td colspan="3" style="text-align : center;"><s:if
+				test="comeValid">
 				<s:form action="employeeCome" theme="simple">
 					<s:submit key="come.punch" />
 				</s:form>
-			</s:if>
-			<s:if test="leaveValid">
+			</s:if> <s:if test="leaveValid">
 				<s:form action="employeeLeave" theme="simple">
 					<s:hidden value="leave" />
 					<s:submit key="leave.punch" />
 				</s:form>
-			</s:if> <br />
+			</s:if> <s:if test="!leaveValid&&!comeValid">
+				<s:label value="非打卡时间，不能打卡"></s:label>
+			</s:if>
 			</div></td>
 	</tr>
 </table>

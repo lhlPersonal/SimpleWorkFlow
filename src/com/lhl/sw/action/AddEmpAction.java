@@ -1,49 +1,30 @@
+/**   
+ * @author lihailong
+ * @date 2015-05-13
+ * @Description: add employee action
+ * @version 1.0   
+ */
 package com.lhl.sw.action;
 
 import com.lhl.sw.action.base.MgrBaseAction;
 import com.lhl.sw.po.Employee;
 import com.lhl.sw.util.Constant;
+import com.lhl.sw.util.Util;
 import com.opensymphony.xwork2.ActionContext;
 
-
-public class AddEmpAction extends MgrBaseAction
-{
-	//������Ա����
+public class AddEmpAction extends MgrBaseAction {
 	private Employee emp;
-	//��װ��ʾ��Ϣ��tip����
-	private String tip;
-	//emp���Ե�setter��getter����
-	public void setEmp(Employee emp)
-	{
+
+	public void setEmp(Employee emp) {
 		this.emp = emp;
 	}
-	public Employee getEmp()
-	{
+
+	public Employee getEmp() {
 		return this.emp;
 	}
 
-	//tip���Ե�setter��getter����
-	public void setTip(String tip)
-	{
-		this.tip = tip;
-	}
-	public String getTip()
-	{
-		return this.tip;
-	}
-
-	public String execute()
-		throws Exception
-	{
-		//����ActionContextʵ��
-		ActionContext ctx = ActionContext.getContext();
-		//��ȡHttpSession�е�user����
-		String mgrName = (String)ctx.getSession()
-			.get(Constant.USER);
-		//������û�
-		mgr.addEmp(emp , mgrName);
-		setTip("����Ա���ɹ�");
+	public String execute() throws Exception {
+		mgr.addEmp(emp, Util.getUserId());
 		return SUCCESS;
 	}
-
 }

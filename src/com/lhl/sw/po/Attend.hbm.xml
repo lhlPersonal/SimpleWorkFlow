@@ -11,9 +11,8 @@
 			<!-- 指定使用identity主键生成策略 -->
 			<generator class="identity" />
 		</id>
-		<many-to-one name="attendType" column="attend_type" class="AttendType"
-			not-null="true"></many-to-one>
-		<many-to-one name="employee" column="t_emp" class="Employee"
+		<many-to-one name="attendType" column="type_id" class="AttendType"></many-to-one>
+		<many-to-one name="employee" column="emp_id" class="Employee"
 			not-null="true"></many-to-one>
 		<property name="comeTime" column="come_time" type="time" />
 		<property name="leaveTime" column="leave_time" type="time" />

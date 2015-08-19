@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import com.lhl.sw.dao.BaseDAO;
 import com.lhl.sw.po.AttendType;
 import com.lhl.sw.po.Employee;
 import com.lhl.sw.po.Manager;
@@ -19,6 +20,8 @@ public interface EmpService {
 	Set<Payment> getPaymentsByEmpId(Integer empId);
 
 	Employee getEmpById(Integer empId);
+
+	BaseDAO<AttendType> getTypeDao();
 
 	// 登录失败
 	public static final int LOGIN_FAIL = 0;
@@ -88,15 +91,12 @@ public interface EmpService {
 	/**
 	 * 打卡
 	 * 
-	 * @param user
-	 *            员工名
-	 * @param dutyDay
-	 *            打卡日期
+	 * @param userId
+	 *            员工id
 	 * @param isCome
 	 *            是否是上班打卡
-	 * @return 打卡结果
 	 */
-	public int punch(String user, String dutyDay, boolean isCome);
+	public void punch(int userId, boolean isCome);
 
 	/**
 	 * 根据员工浏览自己的工资

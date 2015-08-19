@@ -6,19 +6,19 @@
  */
 package com.lhl.sw.po;
 
-import java.sql.Date;
 import java.sql.Time;
+import java.util.Date;
 
 public class Attend {
 
 	private Integer id;
 	// 考勤日期
 	private Date date;
-
 	// 上班时间
 	private Time comeTime;
 	// 下班时间
 	private Time leaveTime;
+	// 每天晚上12点确定最终的考勤类型
 	private AttendType attendType;
 	private Employee employee;
 

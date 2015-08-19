@@ -6,19 +6,24 @@
  */
 package com.lhl.sw.service.impl;
 
+import java.sql.Time;
 import java.time.Clock;
 import java.time.Instant;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Properties;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
 import javax.swing.text.html.ObjectView;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
 import com.lhl.sw.dao.BaseDAO;
@@ -28,12 +33,14 @@ import com.lhl.sw.po.Employee;
 import com.lhl.sw.po.Manager;
 import com.lhl.sw.po.Payment;
 import com.lhl.sw.service.EmpService;
+import com.lhl.sw.util.Util;
 import com.lhl.sw.vo.AttendBean;
 import com.lhl.sw.vo.PaymentBean;
 
 @Service
 @Transactional
 public class EmpSerivceImpl implements EmpService {
+
 	@Autowired
 	private BaseDAO<Payment> payDao;
 	@Autowired
@@ -41,6 +48,12 @@ public class EmpSerivceImpl implements EmpService {
 
 	@Autowired
 	private BaseDAO<Attend> attDao;
+	@Autowired
+	private BaseDAO<AttendType> typeDao;
+
+	public BaseDAO<AttendType> getTypeDao() {
+		return typeDao;
+	}
 
 	public void savePayment(Payment pay) {
 		payDao.save(pay);
@@ -104,7 +117,7 @@ public class EmpSerivceImpl implements EmpService {
 		// 上午9:30之前可上班打卡
 		ZonedDateTime date = ZonedDateTime.now();
 
-		if (date.getHour() < 10 && date.getMinute() <= 30) {
+		//if (date.getHour() < 10 && date.getMinute() <= 30) {
 			Attend attend = attDao
 					.get("select a from Attend a where a.employee.id=?0 and a.date=?1",
 							new Object[] { userId, dutyDay });
@@ -112,24 +125,44 @@ public class EmpSerivceImpl implements EmpService {
 			if (attend == null) {
 				return COME_PUNCH;
 			}
-		} // 下午18:00后可下班打卡
-		else if (date.getHour() >= 18) {
-			Attend attend = attDao
-					.get("select a from Attend a where a.employee.id=?0 and a.date=?1",
-							new Object[] { userId, dutyDay });
-
-			if (attend.getLeaveTime() == null) {
-				return LEAVE_PUNCH;
-			}
-		}
-
+//		} // 下午18:00后可下班打卡
+//		else if (date.getHour() >= 18) {
+//			Attend attend = attDao
+//					.get("select a from Attend a where a.employee.id=?0 and a.date=?1",
+//							new Object[] { userId, dutyDay });
+//
+//			if (attend != null && attend.getLeaveTime() == null) {
+//				return LEAVE_PUNCH;
+//			}
+//		}
+//
 		return NO_PUNCH;
 	}
 
 	@Override
-	public int punch(String user, String dutyDay, boolean isCome) {
-		// TODO Auto-generated method stub
-		return 0;
+	public void punch(int userId, boolean isCome) {
+		if (isCome) {
+			Attend attend = new Attend();
+			// attend 日期
+			attend.setDate(Date.from(Instant.now()));
+			// 上班打卡时间
+			attend.setComeTime(Time.valueOf(LocalTime.now()));
+			// 打卡的人
+			attend.setEmployee(empDao.get(Employee.class, userId));
+
+			attDao.save(attend);
+		} else {
+			Attend attend = attDao
+					.get("select a from Attend a where a.date=?0 and a.employee.id=?1",
+							new Object[] { Date.from(Instant.now()), userId });
+
+			if (attend != null) {
+				// 记录下班打卡时间
+				attend.setLeaveTime(Time.valueOf(LocalTime.now()));
+
+				attDao.update(attend);
+			}
+		}
 	}
 
 	@Override

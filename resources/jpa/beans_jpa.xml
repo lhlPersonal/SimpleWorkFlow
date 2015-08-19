@@ -25,14 +25,10 @@
 		<property name="persistenceProvider">
 			<bean class="org.hibernate.jpa.HibernatePersistenceProvider"></bean>
 		</property>
-	<!-- 	<property name="jpaVendorAdapter">
-			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-				<property name="database" value="MYSQL"></property>
-			</bean>
-		</property> 
-	 	<property name="jpaDialect">
-			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"></bean>
-		</property> -->
+		<!-- <property name="jpaVendorAdapter"> <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"> 
+			<property name="database" value="MYSQL"></property> </bean> </property> <property 
+			name="jpaDialect"> <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"></bean> 
+			</property> -->
 		<property name="jpaProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>

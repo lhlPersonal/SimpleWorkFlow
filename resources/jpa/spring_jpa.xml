@@ -10,9 +10,11 @@
 	<!--容器后处理器（属性占位符处理器，spring读取location指的属性文件成为spring配置文件的元素据，然后通过spEL引用） -->
 	<context:property-placeholder location="classpath:prop/db.properties" />
 	<aop:aspectj-autoproxy />
-	<context:component-scan base-package="com.lhl.sw.*.*" />
+	<context:component-scan
+		base-package="com.lhl.sw.dao.*,com.lhl.sw.service.*,com.lhl.sw.action.base,com.lhl.sw.util">
+
+	</context:component-scan>
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
 	<import resource="beans_jpa.xml" />
-
 </beans>

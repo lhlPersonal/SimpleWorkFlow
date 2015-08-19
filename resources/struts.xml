@@ -151,7 +151,8 @@
 			<result name="invalid.token">/page/manager/addEmp.jsp</result>
 			<result name="input">/page/manager/addEmp.jsp</result>
 			<result name="failure">/page/manager/addEmp.jsp</result>
-			<result>/page/manager/index.jsp</result>
+			<result type="chain">viewEmp</result>
+
 		</action>
 
 		<!-- 经理处理申请 -->

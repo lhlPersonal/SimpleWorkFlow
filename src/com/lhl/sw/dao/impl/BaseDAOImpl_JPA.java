@@ -6,26 +6,30 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.context.spi.CurrentSessionContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.context.ContextLoader;
 
 import com.lhl.sw.dao.BaseDAO;
 
 @Repository
+@Transactional
 public class BaseDAOImpl_JPA<T> implements BaseDAO<T> {
 
 	@PersistenceContext
 	private EntityManager manager;
 
-	public Serializable save(T o) {
+	public void save(T o) {
 		this.manager.persist(o);
-		return "1";
 	}
 
 	public void delete(T o) {
@@ -59,7 +63,7 @@ public class BaseDAOImpl_JPA<T> implements BaseDAO<T> {
 	}
 
 	public List<T> find(String hql) {
-		return this.manager.createNamedQuery(hql).getResultList();
+		return this.manager.createQuery(hql).getResultList();
 	}
 
 	public List<T> find(String hql, Object[] param) {
@@ -73,13 +77,7 @@ public class BaseDAOImpl_JPA<T> implements BaseDAO<T> {
 	}
 
 	public List<T> find(String hql, List<Object> param) {
-		javax.persistence.Query q = this.manager.createQuery(hql);
-		if (param != null && param.size() > 0) {
-			for (int i = 0; i < param.size(); i++) {
-				q.setParameter(i, param.get(i));
-			}
-		}
-		return q.getResultList();
+		return this.find(hql, param.toArray());
 	}
 
 	public List<T> find(String hql, Object[] param, Integer page, Integer rows) {

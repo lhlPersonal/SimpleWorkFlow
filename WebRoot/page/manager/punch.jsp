@@ -1,29 +1,25 @@
 <%@include file="../include/header.jsp"%>
 <table width="780" align="center">
 	<tr>
-		<td colspan="3"><br> <br>
+		<td colspan="3"><br /> <br />
 			<div class="mytitle">电子打卡系统</div></td>
 	</tr>
 	<tr>
-		<td colspan="3"><br> <br> <br> <!-- 当punchIsValid为1、3时，可上班打卡 -->
-			<s:if test="punchIsValid==1 
-	|| punchIsValid==3">
-				<s:form action="managerCome">
+		<td colspan="3" style="text-align : center;"><s:if
+				test="comeValid">
+				<s:form action="managerCome" theme="simple">
 					<s:submit key="come.punch" />
 				</s:form>
-			</s:if> <br> <br> <br></td>
-	</tr>
-	<tr>
-		<td colspan="3">
-			<!-- 当punchIsValid为2、3时，可下班打卡 --> <s:if
-				test="punchIsValid==2
-	|| punchIsValid==3">
-				<s:form action="managerLeave">
+			</s:if> <s:if test="leaveValid">
+				<s:form action="managerLeave" theme="simple">
+					<s:hidden value="leave" />
 					<s:submit key="leave.punch" />
 				</s:form>
-			</s:if> <br>
-		</td>
+			</s:if> <s:if test="!leaveValid&&!comeValid">
+				<s:label value="非打卡时间，不能打卡"></s:label>
+			</s:if>
+			</div></td>
 	</tr>
-</TABLE>
+</table>
 <%@include file="../include/footer.jsp"%>
 

@@ -11,7 +11,7 @@ public interface BaseDAO<T> {
 	 * @param o
 	 * @return
 	 */
-	public Serializable save(T o);
+	public void save(T o);
 
 	/**
 	 * ɾ��һ������

@@ -16,21 +16,13 @@ import org.springframework.stereotype.Repository;
 
 import com.lhl.sw.dao.BaseDAO;
 
-public class BaseDAOImpl<T>{
+public class BaseDAOImpl<T> {
 
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
-
 	public Session getCurrentSession() {
 		return sessionFactory.getCurrentSession();
-	}
-
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
 	}
 
 	public Serializable save(T o) {

@@ -13,15 +13,8 @@ import com.lhl.sw.vo.AttendBean;
 import com.lhl.sw.vo.PaymentBean;
 
 public interface EmpService {
-	void savePayment(Payment pay);
-
-	void saveEmp(Employee emp);
-
-	Set<Payment> getPaymentsByEmpId(Integer empId);
 
 	Employee getEmpById(Integer empId);
-
-	BaseDAO<AttendType> getTypeDao();
 
 	// 登录失败
 	public static final int LOGIN_FAIL = 0;
@@ -68,12 +61,12 @@ public interface EmpService {
 	int[] validLogin(Manager mgr);
 
 	/**
-	 * 自动打卡，周一到周五，早上7：00为每个员工插入旷工记录
+	 * 自动考勤，周一到周五，晚上23:59:00为每个员工统计考勤记录
 	 */
 	void autoPunch();
 
 	/**
-	 * 自动结算工资，每月1号，结算上个月工资
+	 * 自动结算工资，每月10号，结算上个月工资
 	 */
 	void autoPay();
 
@@ -135,4 +128,12 @@ public interface EmpService {
 	 * @return 添加的结果
 	 */
 	boolean addApplication(int attId, int typeId, String reason);
+
+	/**
+	 * 执行存储过程
+	 * 
+	 * @param procName
+	 * @param params
+	 */
+	int callProcedure(String procName, Object[] params);
 }

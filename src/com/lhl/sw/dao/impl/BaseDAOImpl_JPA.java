@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
+import javax.persistence.StoredProcedureQuery;
 import javax.transaction.Transactional;
 
 import org.hibernate.Query;
@@ -175,4 +176,15 @@ public class BaseDAOImpl_JPA<T> implements BaseDAO<T> {
 		return q.executeUpdate();
 	}
 
+	@Override
+	public int callProcedure(String procName, Object[] params) {
+		StoredProcedureQuery query = this.manager
+				.createStoredProcedureQuery(procName);
+		if (params != null && params.length > 0) {
+			for (int i = 0; i < params.length; i++) {
+				query.setParameter(i, params[i]);
+			}
+		}
+		return query.executeUpdate();
+	}
 }

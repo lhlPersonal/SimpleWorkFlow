@@ -21,24 +21,6 @@ public class TestAction extends ActionSupport {
 
 	@Override
 	public String execute() throws Exception {
-		Payment payment = new Payment();
-		payment.setMonth(1);
-		payment.setPayment(5000d);
-
-		Employee employee = new Employee();
-		employee.setName("111");
-		employee.setPassword("22");
-		employee.setSalary(5400d);
-
-		Manager nanager = new Manager();
-		nanager.setDept("rd");
-
-		employee.setManager(nanager);
-
-		payment.setEmp(employee);
-
-		empSerivceImpl.savePayment(payment);
-
 		return super.execute();
 	}
 

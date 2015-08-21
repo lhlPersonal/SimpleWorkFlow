@@ -49,7 +49,9 @@ public class MgrSerivceImpl implements MgrService {
 	@Override
 	public List<EmpBean> getEmpsByMgr(int mgrId) throws HrException {
 		List<EmpBean> empBeans = new ArrayList<EmpBean>();
-		List<Employee> empList = empDAO.find("select e from Employee e");
+		List<Employee> empList = empDAO.find(
+				"from Employee as e where e.manager.id=?0",
+				new Object[] { mgrId });
 		if (empList != null && !empList.isEmpty()) {
 			empList.parallelStream().forEach((e) -> {
 				empBeans.add(getEmpBean(e));

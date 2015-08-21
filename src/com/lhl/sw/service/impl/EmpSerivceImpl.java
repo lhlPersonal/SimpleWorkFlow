@@ -51,27 +51,6 @@ public class EmpSerivceImpl implements EmpService {
 	@Autowired
 	private BaseDAO<AttendType> typeDao;
 
-	public BaseDAO<AttendType> getTypeDao() {
-		return typeDao;
-	}
-
-	public void savePayment(Payment pay) {
-		payDao.save(pay);
-	}
-
-	@Override
-	public void saveEmp(Employee emp) {
-		empDao.save(emp);
-		emp.setSalary(6700d);
-		empDao.update(emp);
-	}
-
-	public Set<Payment> getPaymentsByEmpId(Integer empId) {
-		Set<Payment> pays = empDao.get(Employee.class, empId).getPayments();
-		System.out.println(pays.size());
-		return pays;
-	}
-
 	@Override
 	public Employee getEmpById(Integer empId) {
 		return empDao.get(Employee.class, empId);
@@ -98,7 +77,6 @@ public class EmpSerivceImpl implements EmpService {
 
 	@Override
 	public void autoPunch() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -117,25 +95,25 @@ public class EmpSerivceImpl implements EmpService {
 		// 上午9:30之前可上班打卡
 		ZonedDateTime date = ZonedDateTime.now();
 
-		//if (date.getHour() < 10 && date.getMinute() <= 30) {
-			Attend attend = attDao
-					.get("select a from Attend a where a.employee.id=?0 and a.date=?1",
-							new Object[] { userId, dutyDay });
+		// if (date.getHour() < 10 && date.getMinute() <= 30) {
+		Attend attend = attDao.get(
+				"select a from Attend a where a.employee.id=?0 and a.date=?1",
+				new Object[] { userId, dutyDay });
 
-			if (attend == null) {
-				return COME_PUNCH;
-			}
-//		} // 下午18:00后可下班打卡
-//		else if (date.getHour() >= 18) {
-//			Attend attend = attDao
-//					.get("select a from Attend a where a.employee.id=?0 and a.date=?1",
-//							new Object[] { userId, dutyDay });
-//
-//			if (attend != null && attend.getLeaveTime() == null) {
-//				return LEAVE_PUNCH;
-//			}
-//		}
-//
+		if (attend == null) {
+			return COME_PUNCH;
+		}
+		// } // 下午18:00后可下班打卡
+		// else if (date.getHour() >= 18) {
+		// Attend attend = attDao
+		// .get("select a from Attend a where a.employee.id=?0 and a.date=?1",
+		// new Object[] { userId, dutyDay });
+		//
+		// if (attend != null && attend.getLeaveTime() == null) {
+		// return LEAVE_PUNCH;
+		// }
+		// }
+		//
 		return NO_PUNCH;
 	}
 
@@ -189,4 +167,8 @@ public class EmpSerivceImpl implements EmpService {
 		return false;
 	}
 
+	@Override
+	public int callProcedure(String procName, Object[] params) {
+		return empDao.callProcedure(procName, params);
+	}
 }

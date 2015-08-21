@@ -2,8 +2,10 @@
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
@@ -11,9 +13,13 @@
 	<context:property-placeholder location="classpath:prop/db.properties" />
 	<aop:aspectj-autoproxy />
 	<context:component-scan
-		base-package="com.lhl.sw.dao.*,com.lhl.sw.service.*,com.lhl.sw.action.base,com.lhl.sw.util">
-
+		base-package="com.lhl.sw.dao.*,com.lhl.sw.service.*,com.lhl.sw.action.base,com.lhl.sw.util,com.lhl.sw.schedule">
 	</context:component-scan>
+	<task:annotation-driven mode="proxy" scheduler="flowSchedule" />
+	<task:scheduler id="flowSchedule" pool-size="20" />
+	<!--改为注解方式 <task:scheduled-tasks>
+		<task:scheduled ref="flowTask" method="" />
+	</task:scheduled-tasks> -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
 	<import resource="beans_jpa.xml" />

@@ -7,21 +7,29 @@
 package com.lhl.sw.service.impl;
 
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+
+import javafx.scene.input.DataFormat;
 
 import javax.annotation.PostConstruct;
 import javax.swing.text.html.ObjectView;
 import javax.transaction.Transactional;
 
+import org.quartz.ListenerManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
@@ -77,13 +85,13 @@ public class EmpSerivceImpl implements EmpService {
 
 	@Override
 	public void autoPunch() {
-
+		this.callProcedure("attendProc(?0)",
+				new Object[] { Date.from(Instant.now()) });
 	}
 
 	@Override
 	public void autoPay() {
-		// TODO Auto-generated method stub
-
+		this.callProcedure("balanceMonthSalary()", null);
 	}
 
 	/**
@@ -95,25 +103,27 @@ public class EmpSerivceImpl implements EmpService {
 		// 上午9:30之前可上班打卡
 		ZonedDateTime date = ZonedDateTime.now();
 
-		// if (date.getHour() < 10 && date.getMinute() <= 30) {
-		Attend attend = attDao.get(
-				"select a from Attend a where a.employee.id=?0 and a.date=?1",
-				new Object[] { userId, dutyDay });
+		if (date.getHour() < 10 && date.getMinute() <= 30) {
+			Attend attend = attDao
+					.get("select a from Attend a where a.employee.id=?0 and a.date=?1",
+							new Object[] { userId, dutyDay });
 
-		if (attend == null) {
-			return COME_PUNCH;
+			if (attend == null) {
+				return COME_PUNCH;
+			}
+		} // 下午18:00后可下班打卡
+		else if (date.getHour() >= 18) {
+			Attend attend = attDao
+					.get("select a from Attend a where a.employee.id=?0 and a.date=?1",
+							new Object[] { userId, dutyDay });
+
+			// 下午没有打卡或者上午没有打卡 在下班时间后都可以打卡
+			if ((attend != null && attend.getLeaveTime() == null)
+					|| attend == null) {
+				return LEAVE_PUNCH;
+			}
 		}
-		// } // 下午18:00后可下班打卡
-		// else if (date.getHour() >= 18) {
-		// Attend attend = attDao
-		// .get("select a from Attend a where a.employee.id=?0 and a.date=?1",
-		// new Object[] { userId, dutyDay });
-		//
-		// if (attend != null && attend.getLeaveTime() == null) {
-		// return LEAVE_PUNCH;
-		// }
-		// }
-		//
+
 		return NO_PUNCH;
 	}
 
@@ -133,20 +143,43 @@ public class EmpSerivceImpl implements EmpService {
 			Attend attend = attDao
 					.get("select a from Attend a where a.date=?0 and a.employee.id=?1",
 							new Object[] { Date.from(Instant.now()), userId });
-
+			// 上班打卡了下班没打
 			if (attend != null) {
 				// 记录下班打卡时间
 				attend.setLeaveTime(Time.valueOf(LocalTime.now()));
 
 				attDao.update(attend);
+			} else {
+				// 上班没打卡，则只对下班进行打卡
+				attend = new Attend();
+				// attend 日期
+				attend.setDate(Date.from(Instant.now()));
+				// 下班打卡时间
+				attend.setLeaveTime(Time.valueOf(LocalTime.now()));
+				// 打卡的人
+				attend.setEmployee(empDao.get(Employee.class, userId));
+
+				attDao.save(attend);
 			}
 		}
 	}
 
 	@Override
-	public java.util.List<PaymentBean> empSalary(String empName) {
-		// TODO Auto-generated method stub
-		return null;
+	public java.util.List<PaymentBean> empSalary(int empId, int totalMonth) {
+		List<Payment> payments = payDao
+				.find("select p from Payment as p where p.emp.id=?0 and p.balanceDay>=?1",
+						new Object[] { empId, Util.getLastMonthDay(totalMonth) });
+		List<PaymentBean> beans = new ArrayList<PaymentBean>();
+
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+		if (!Util.isCollectionNullOrEmpty(payments)) {
+			payments.forEach((p) -> {
+				beans.add(new PaymentBean(df.format(p.getBalanceDay()), p
+						.getPayment()));
+			});
+		}
+		return beans;
 	}
 
 	@Override

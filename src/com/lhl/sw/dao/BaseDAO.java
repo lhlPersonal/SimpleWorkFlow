@@ -42,6 +42,8 @@ public interface BaseDAO<T> {
 	 */
 	List<T> find(String hql);
 
+	List find1(String hql);
+
 	/**
 	 * ��ѯ����
 	 * 
@@ -50,6 +52,8 @@ public interface BaseDAO<T> {
 	 * @return
 	 */
 	List<T> find(String hql, Object[] param);
+
+	List find2(String hql, Object[] param);
 
 	/**
 	 * ��ѯ����
@@ -176,7 +180,7 @@ public interface BaseDAO<T> {
 	/**
 	 * 执行存储过程
 	 * 
-	 * @param procName 
+	 * @param procName
 	 * @param params
 	 */
 	int callProcedure(String procName, Object[] params);

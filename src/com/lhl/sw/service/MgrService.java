@@ -22,11 +22,11 @@ public interface MgrService {
 	/**
 	 * 根据经理返回所有的部门上个月工资
 	 * 
-	 * @param mgr
-	 *            新增的员工名
+	 * @param mgrId
+	 *            manager id
 	 * @return 部门上个月工资
 	 */
-	List<SalaryBean> getSalaryByMgr(String mgr) throws HrException;
+	List<SalaryBean> getSalaryByMgr(int mgrId) throws Exception;
 
 	/**
 	 * 根据经理返回该部门的全部员工

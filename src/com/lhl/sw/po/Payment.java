@@ -6,21 +6,23 @@
  */
 package com.lhl.sw.po;
 
+import java.util.Date;
+
 public class Payment {
 	private Integer id;
 	private Double payment;
 	private Employee emp;
-	private int month;
+	private Date balanceDay;
 
 	public Payment() {
 	}
 
-	public Payment(Integer id, Double payment, Employee emp, int month) {
+	public Payment(Integer id, Double payment, Employee emp, Date balanceDay) {
 		super();
 		this.id = id;
 		this.payment = payment;
 		this.emp = emp;
-		this.month = month;
+		this.balanceDay = balanceDay;
 	}
 
 	public Integer getId() {
@@ -47,12 +49,12 @@ public class Payment {
 		this.emp = emp;
 	}
 
-	public int getMonth() {
-		return month;
+	public Date getBalanceDay() {
+		return balanceDay;
 	}
 
-	public void setMonth(int month) {
-		this.month = month;
+	public void setBalanceDay(Date balanceDay) {
+		this.balanceDay = balanceDay;
 	}
 
 }

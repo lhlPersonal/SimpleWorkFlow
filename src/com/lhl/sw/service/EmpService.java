@@ -94,11 +94,13 @@ public interface EmpService {
 	/**
 	 * 根据员工浏览自己的工资
 	 * 
-	 * @param empName
-	 *            员工名
+	 * @param empId
+	 *            员工id
+	 * @param totalMonth
+	 *            查看多少月的工资
 	 * @return 该员工的工资列表
 	 */
-	List<PaymentBean> empSalary(String empName);
+	List<PaymentBean> empSalary(int empId, int totalMonth);
 
 	/**
 	 * 员工查看自己的最近三天非正常打卡

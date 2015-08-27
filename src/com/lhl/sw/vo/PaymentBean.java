@@ -1,41 +1,38 @@
+/**   
+ * @author lihailong
+ * @date 2015-05-13
+ * @Description: personal salary of some prev monthes' bean
+ * @version 1.0   
+ */
 package com.lhl.sw.vo;
 
 import java.io.Serializable;
 
-public class PaymentBean implements Serializable
-{
-	private static final long serialVersionUID = 48L;
+public class PaymentBean implements Serializable {
 	private String payMonth;
 	private double amount;
 
-	//�޲���Ĺ�����
-	public PaymentBean()
-	{
+	public PaymentBean() {
 	}
-	//��ʼ��ȫ�����ԵĹ�����
-	public PaymentBean(String payMonth , double amount)
-	{
+
+	public PaymentBean(String payMonth, double amount) {
 		this.payMonth = payMonth;
 		this.amount = amount;
 	}
 
-	//payMonth���Ե�setter��getter����
-	public void setPayMonth(String payMonth)
-	{
+	public void setPayMonth(String payMonth) {
 		this.payMonth = payMonth;
 	}
-	public String getPayMonth()
-	{
+
+	public String getPayMonth() {
 		return this.payMonth;
 	}
 
-	//amount���Ե�setter��getter����
-	public void setAmount(double amount)
-	{
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
-	public double getAmount()
-	{
+
+	public double getAmount() {
 		return this.amount;
 	}
 

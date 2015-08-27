@@ -41,16 +41,15 @@ public class FlowTask {
 	private EmpService empService;
 
 	// 周一到周五的23:59:00统计当天的最终考勤情况
-	@Scheduled(cron = "0 32 18 * *MON-FRI ?")
+	@Scheduled(cron = "0 59 23 * *MON-FRI ?")
 	public void insertAttendType() throws ParseException {
-		empService.callProcedure("attendProc(0?)",
-				new Object[] { new SimpleDateFormat("yyyy-MM-dd")
-						.parse("2015-08-20") });
+		empService.autoPunch();
 	}
 
-	// 每月的10号零点结算工资
+	// 每月的10号零点结算上月工资
 	@Scheduled(cron = "0 0 0 10 * *")
 	public void balanceEmpSalaryOfMonth() {
-
+		// 从考勤表中取出员工上月的考勤记录，根据不同的考勤类别计算出工资总额。生成薪资记录，插入到薪资表中。
+		empService.autoPay();
 	}
 }

@@ -13,7 +13,7 @@
 		</id>
 		<!-- 映射普通属性 -->
 		<property name="payment" column="payment" type="double" />
-		<property name="month" column="month" type="integer" />
+		<property name="balanceDay" column="balance_day" type="date" />
 		<many-to-one name="emp" column="emp_id" class="Employee"
 			not-null="true"></many-to-one>
 	</class>

@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
 import javax.transaction.Transactional;
 
+import org.apache.naming.java.javaURLContextFactory;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -65,6 +66,20 @@ public class BaseDAOImpl_JPA<T> implements BaseDAO<T> {
 
 	public List<T> find(String hql) {
 		return this.manager.createQuery(hql).getResultList();
+	}
+
+	public List find1(String hql) {
+		return this.manager.createQuery(hql).getResultList();
+	}
+
+	public List find2(String hql, Object[] param) {
+		javax.persistence.Query q = this.manager.createQuery(hql);
+		if (param != null && param.length > 0) {
+			for (int i = 0; i < param.length; i++) {
+				q.setParameter(i, param[i]);
+			}
+		}
+		return q.getResultList();
 	}
 
 	public List<T> find(String hql, Object[] param) {
@@ -178,8 +193,8 @@ public class BaseDAOImpl_JPA<T> implements BaseDAO<T> {
 
 	@Override
 	public int callProcedure(String procName, Object[] params) {
-		StoredProcedureQuery query = this.manager
-				.createStoredProcedureQuery(procName);
+		javax.persistence.Query query = this.manager.createNativeQuery("{call "
+				+ procName + "}");
 		if (params != null && params.length > 0) {
 			for (int i = 0; i < params.length; i++) {
 				query.setParameter(i, params[i]);

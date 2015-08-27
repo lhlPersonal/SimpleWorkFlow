@@ -1,42 +1,38 @@
+/**   
+ * @author lihailong  
+ * @date 2015年8月20日
+ * @Description: dept salary bean for page.
+ * @version 1.0   
+ */
 package com.lhl.sw.vo;
 
 import java.io.Serializable;
 
-public class SalaryBean
-	implements Serializable
-{
-	private static final long serialVersionUID = 48L;
+public class SalaryBean implements Serializable {
 	private String empName;
 	private double amount;
 
-	//�޲���Ĺ�����
-	public SalaryBean()
-	{
+	public SalaryBean() {
 	}
-	//��ʼ��ȫ�����ԵĹ�����
-	public SalaryBean(String empName , double amount)
-	{
+
+	public SalaryBean(String empName, double amount) {
 		this.empName = empName;
 		this.amount = amount;
 	}
 
-	//empName���Ե�setter��getter����
-	public void setEmpName(String empName)
-	{
+	public void setEmpName(String empName) {
 		this.empName = empName;
 	}
-	public String getEmpName()
-	{
+
+	public String getEmpName() {
 		return this.empName;
 	}
 
-	//amount���Ե�setter��getter����
-	public void setAmount(double amount)
-	{
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
-	public double getAmount()
-	{
+
+	public double getAmount() {
 		return this.amount;
 	}
 }

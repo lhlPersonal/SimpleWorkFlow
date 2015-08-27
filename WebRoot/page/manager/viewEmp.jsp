@@ -1,6 +1,6 @@
 <%@include file="../include/header.jsp"%>
 
-<table width="80%" border="0" align="center" cellspacing="1"
+<table width="780" border="0" align="center" cellspacing="1"
 	bgcolor="#cccccc">
 	<tr bgcolor="#e1e1e1">
 		<td colspan="3"><div class="mytitle">您正在查看部门的全部员工</div></td>
